@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Correction do
-  it "can be saved" do
-    corr = FactoryGirl.build(:correction, :current => "I think, theirfour I am.")
-    corr.save.should be_true
+  it "requires current text" do
+    corr = FactoryGirl.build(:correction, :current => nil)
+    corr.should_not be_valid
+    corr.errors.should be_added(:current, :blank)
   end
 end
