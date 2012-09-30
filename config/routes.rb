@@ -1,5 +1,6 @@
 LloydProof::Application.routes.draw do
   get "correction/index"
+  post "correction/sync"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
