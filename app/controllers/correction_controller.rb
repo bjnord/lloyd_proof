@@ -1,6 +1,8 @@
 class CorrectionController < ApplicationController
+  respond_to :html, :except => :sync
+
   def index
-    @corrections = Correction.all
+    respond_with(@corrections = Correction.all)
   end
 
   def sync
