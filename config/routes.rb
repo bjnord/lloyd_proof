@@ -1,5 +1,5 @@
 LloydProof::Application.routes.draw do
-  get "corrections/index"
+  get "corrections" => "corrections#index"
   post "corrections/sync"
 
   # The priority is based upon order of creation:
