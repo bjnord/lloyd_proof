@@ -8,7 +8,7 @@ describe "corrections/index.html.erb" do
   it "renders all corrections" do
     render
     @corrections.each do |correction|
-      rendered.should contain(correction.current)
+      rendered.should contain(correction.current_text)
     end
   end
 end

@@ -1,4 +1,4 @@
 class Correction < ActiveRecord::Base
-  attr_accessible :current
-  validates_presence_of :current
+  attr_accessible :current_text
+  validates_presence_of :current_text
 end

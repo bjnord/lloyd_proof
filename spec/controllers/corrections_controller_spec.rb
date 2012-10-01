@@ -11,19 +11,19 @@ describe CorrectionsController do
     it 'returns an array of corrections' do
       FactoryGirl.create(:correction)
       popeye = 'I yam what I yam.'
-      FactoryGirl.create(:correction, :current => popeye)
+      FactoryGirl.create(:correction, :current_text => popeye)
       get :index
       assigns[:corrections].should have_at_least(2).items
-      assigns[:corrections].collect{|c| c.current}.should include(popeye)
+      assigns[:corrections].collect{|c| c.current_text}.should include(popeye)
     end
   end
 
   describe 'sync action' do
     before(:each) do
       @corrections = [
-        {'sync_id' => '101', 'current' => 'irregardless'},
-        {'sync_id' => '102', 'current' => 'equally as'},
-        {'sync_id' => '103', 'current' => 'pour over'}
+        {'sync_id' => '101', 'current_text' => 'irregardless'},
+        {'sync_id' => '102', 'current_text' => 'equally as'},
+        {'sync_id' => '103', 'current_text' => 'pour over'}
       ]
     end
 
@@ -40,7 +40,7 @@ describe CorrectionsController do
     end
 
     it 'selectively rejects invalid corrections' do
-      @corrections[1]['current'] = ''
+      @corrections[1]['current_text'] = ''
       bad_sync_id = @corrections[1]['sync_id']
       post :sync, :corrections => @corrections, :format => :json
       JSON.parse(response.body).each do |status|

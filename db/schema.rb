@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120928233750) do
+ActiveRecord::Schema.define(:version => 20121001030622) do
 
   create_table "corrections", :force => true do |t|
-    t.text     "current"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "current_text"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
 end
