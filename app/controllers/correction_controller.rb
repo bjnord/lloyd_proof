@@ -15,12 +15,13 @@ class CorrectionController < ApplicationController
 protected
 
   def sync_one(correction_hash)
+    sync_id = correction_hash.delete('sync_id')
     begin
       corr = Correction.new(correction_hash)
-      return {:status => :ok} if corr.save
-      return {:status => :error, :errors => corr.errors.full_messages}
+      return {:sync_id => sync_id, :status => :ok} if corr.save
+      return {:sync_id => sync_id, :status => :error, :errors => corr.errors.full_messages}
     rescue ActiveModel::MassAssignmentSecurity::Error => e
-      return {:status => :error, :errors => [e.message]}
+      return {:sync_id => sync_id, :status => :error, :errors => [e.message]}
     end
   end
 end

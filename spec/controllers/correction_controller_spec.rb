@@ -19,11 +19,11 @@ describe CorrectionController do
   end
 
   describe 'sync action' do
-    before(:all) do
+    before(:each) do
       @corrections = [
-        {'current' => 'irregardless'},
-        {'current' => 'equally as'},
-        {'current' => 'pour over'}
+        {'sync_id' => '101', 'current' => 'irregardless'},
+        {'sync_id' => '102', 'current' => 'equally as'},
+        {'sync_id' => '103', 'current' => 'pour over'}
       ]
     end
 
@@ -39,13 +39,16 @@ describe CorrectionController do
       end
     end
 
-    it 'rejects invalid corrections' do
-      @corrections[0]['current'] = nil
+    it 'selectively rejects invalid corrections' do
       @corrections[1]['current'] = ''
-      @corrections[2].delete('current')
+      bad_sync_id = @corrections[1]['sync_id']
       post :sync, :corrections => @corrections, :format => :json
       JSON.parse(response.body).each do |status|
-        status['status'].should == 'error'
+        if status['sync_id'] == bad_sync_id
+          status['status'].should == 'error'
+        else
+          status['status'].should == 'ok'
+        end
       end
     end
   end
