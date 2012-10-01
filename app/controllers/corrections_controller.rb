@@ -1,4 +1,4 @@
-class CorrectionController < ApplicationController
+class CorrectionsController < ApplicationController
   respond_to :html, :except => :sync
 
   def index

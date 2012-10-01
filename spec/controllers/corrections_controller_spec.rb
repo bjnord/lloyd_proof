@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CorrectionController do
+describe CorrectionsController do
 
   describe 'index action' do
     it 'returns HTTP success' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "correction/index.html.erb" do
+describe "corrections/index.html.erb" do
   before(:all) do
     @corrections = FactoryGirl.build_list(:correction, 2)
   end
