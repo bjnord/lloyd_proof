@@ -17,3 +17,15 @@
 # Ignore auto-generated documentation.
 /doc/app
 /quality
+
+# Android built application files
+*.apk
+*.ap_
+
+# Java and Dalvik class files
+*.class
+*.dex
+
+# Android generated files
+android/bin/
+android/gen/
