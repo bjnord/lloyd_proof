@@ -3,7 +3,7 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
     <EditText
-      android:id="@+id/Text01"
+      android:id="@+id/current_text"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="10dip"
@@ -16,9 +16,18 @@
       android:id="@+id/Button01"
       android:layout_width="80dip"
       android:layout_height="wrap_content"
-      android:layout_below="@id/Text01"
+      android:layout_below="@id/current_text"
       android:layout_centerInParent="true"
       android:text="@string/save"
-      android:textSize="18sp" android:textStyle="bold" />
+      android:textSize="18sp" android:textStyle="bold"
+      android:onClick="saveCorrection" />
+    <TextView
+      android:id="@+id/sync_status"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/Button01"
+      android:layout_centerInParent="true"
+      android:text=""
+      android:textSize="18sp" />
 </RelativeLayout>
 
