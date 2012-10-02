@@ -29,12 +29,16 @@ public class LloydProof extends Activity
     }
 
     public void saveCorrection(View view) {
-        EditText current_text = (EditText)findViewById(R.id.current_text);
-        // FIXME do nothing if EditText box is empty
-        int id = store.save(current_text.getText().toString());
+        EditText edit_text = (EditText)findViewById(R.id.current_text);
+        String current_text = edit_text.getText().toString();
+        if (current_text.isEmpty()) {
+            Log.d(TAG, "not saving empty correction");
+            return;
+        }
+        int id = store.save(current_text);
         if (id > 0) {
             Log.d(TAG, "saved correction as id=" + id);
-            current_text.setText("", TextView.BufferType.EDITABLE);
+            edit_text.setText("", TextView.BufferType.EDITABLE);
             this.showStatus(resources.getString(R.string.correction_saved));
         } else {
             Log.e(TAG, "error saving correction");
