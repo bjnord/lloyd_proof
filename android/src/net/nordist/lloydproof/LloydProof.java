@@ -15,6 +15,7 @@ public class LloydProof extends Activity
     private final String TAG = this.getClass().getSimpleName();
 
     private CorrectionStorage store;
+    private CorrectionUploader uploader;
     private Context context;
     private Resources resources;
 
@@ -24,6 +25,7 @@ public class LloydProof extends Activity
         context = getApplicationContext();
         resources = context.getResources();
         store = new CorrectionStorage(this);
+        uploader = null;
         setContentView(R.layout.main);
         this.updateSyncStatus();
     }
@@ -45,6 +47,11 @@ public class LloydProof extends Activity
             this.showStatus(resources.getString(R.string.correction_save_error));
         }
         this.updateSyncStatus();
+    }
+
+    public void uploadCorrections(View view) {
+        uploader = new CorrectionUploader(this);
+        uploader.execute();
     }
 
     private void showStatus(String message) {
