@@ -25,6 +25,7 @@ public class LloydProof extends Activity
         resources = context.getResources();
         store = new CorrectionStorage(this);
         setContentView(R.layout.main);
+        this.updateSyncStatus();
     }
 
     public void saveCorrection(View view) {
