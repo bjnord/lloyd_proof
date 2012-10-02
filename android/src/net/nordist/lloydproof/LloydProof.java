@@ -1,11 +1,13 @@
 package net.nordist.lloydproof;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LloydProof extends Activity
 {
@@ -24,15 +26,21 @@ public class LloydProof extends Activity
         EditText current_text = (EditText)findViewById(R.id.current_text);
         // FIXME do nothing if EditText box is empty
         int id = store.save(current_text.getText().toString());
+        // FIXME use string resources for i18n
         if (id > 0) {
             Log.d(TAG, "saved correction as id=" + id);
             current_text.setText("", TextView.BufferType.EDITABLE);
-            // FIXME show success as flyover status
+            this.showStatus("Correction saved.");
         } else {
             Log.e(TAG, "error saving correction");
-            // FIXME show error as flyover status
+            this.showStatus("Error saving correction.");
         }
         this.updateSyncStatus();
+    }
+
+    private void showStatus(String message) {
+        Context context = getApplicationContext();
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     private void updateSyncStatus() {
