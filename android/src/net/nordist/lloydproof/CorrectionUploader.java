@@ -4,12 +4,27 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 {
     private final String TAG = this.getClass().getSimpleName();
+    private final String BASE_URL = "http://10.0.2.2:3000/";
 
     private CorrectionStorage store;
     private Context context;
@@ -28,12 +43,14 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         // FIXME gray out Upload button
     }
 
+    // FIXME refactor
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            JSONArray correction_json = store.getAllAsJsonArray();
-            Log.d(TAG, "upload JSON: " + correction_json.toString());
-            JSONArray status_json = this.uploadJson(correction_json);
+            JSONObject upload_json = new JSONObject();
+            upload_json.put("corrections", store.getAllAsJsonArray());
+            Log.d(TAG, "upload JSON: " + upload_json.toString());
+            JSONArray status_json = this.upload(upload_json);
             Log.d(TAG, "status JSON: " + status_json.toString());
             // FIXME delete from local DB based on status
         } catch (JSONException jex) {
@@ -55,7 +72,31 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         // FIXME reenable Upload button
     }
 
-    protected JSONArray uploadJson(JSONArray corrections) {
-        return new JSONArray();
+    // FIXME refactor
+    protected JSONArray upload(JSONObject json) {
+        String url = BASE_URL + "corrections/sync.json";
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpRequest = new HttpPost(url);
+        JSONArray statii = new JSONArray();
+        try {
+            StringEntity entity = new StringEntity(json.toString(), HTTP.UTF_8);
+            entity.setContentType("application/json");
+            httpRequest.setEntity(entity);
+            HttpResponse httpResponse = httpClient.execute(httpRequest);
+            StatusLine statusLine = httpResponse.getStatusLine();
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
+                String jsonString = new String(body, "UTF-8");
+                Log.d(TAG, "HTTP OK " + jsonString);
+            } else {
+                Log.e(TAG, "HTTP " + statusLine.getStatusCode() + " " +
+                    statusLine.getReasonPhrase());
+            }
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "UEE " + e.getMessage());
+        } catch (IOException e) {
+            Log.e(TAG, "IOE " + e.getMessage());
+        }
+        return statii;
     }
 }
