@@ -27,6 +27,12 @@ namespace :bundle do
 end
 after "bundle:install", "bundle:no_group_writable"
 
+# ensure server is set up for UTF-8
+set :default_environment, { 
+  'LANG' => 'en_US.UTF-8',
+  'LC_ALL' => 'en_US.UTF-8'
+}
+
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
   task :start do ; end
