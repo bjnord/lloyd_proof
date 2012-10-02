@@ -14,10 +14,12 @@ public class LloydProof extends Activity
     private final String TAG = this.getClass().getSimpleName();
 
     private CorrectionStorage store;
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         store = new CorrectionStorage(this);
         setContentView(R.layout.main);
     }
@@ -39,7 +41,6 @@ public class LloydProof extends Activity
     }
 
     private void showStatus(String message) {
-        Context context = getApplicationContext();
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
