@@ -27,7 +27,7 @@ public class LloydProof extends Activity
         store = new CorrectionStorage(this);
         uploader = null;
         setContentView(R.layout.main);
-        this.updateSyncStatus();
+        this.updateUploadStatus();
     }
 
     public void saveCorrection(View view) {
@@ -46,7 +46,7 @@ public class LloydProof extends Activity
             Log.e(TAG, "error saving correction");
             this.showStatus(resources.getString(R.string.correction_save_error));
         }
-        this.updateSyncStatus();
+        this.updateUploadStatus();
     }
 
     public void uploadCorrections(View view) {
@@ -58,14 +58,14 @@ public class LloydProof extends Activity
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void updateSyncStatus() {
-        TextView sync_status = (TextView)findViewById(R.id.sync_status);
+    private void updateUploadStatus() {
+        TextView upload_status = (TextView)findViewById(R.id.upload_status);
         int count = store.count();
         if (count > 0) {
             String plural_count = resources.getQuantityString(R.plurals.corrections, count, count);
-            sync_status.setText(plural_count + " " + resources.getString(R.string.to_upload));
+            upload_status.setText(plural_count + " " + resources.getString(R.string.to_upload));
         } else {
-            sync_status.setText(resources.getString(R.string.all_uploaded));
+            upload_status.setText(resources.getString(R.string.all_uploaded));
         }
     }
 }

@@ -22,7 +22,7 @@
       android:textSize="18sp" android:textStyle="bold"
       android:onClick="saveCorrection" />
     <TextView
-      android:id="@+id/sync_status"
+      android:id="@+id/upload_status"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="4dip"
@@ -35,7 +35,7 @@
       android:layout_width="100dip"
       android:layout_height="wrap_content"
       android:layout_marginTop="2dip"
-      android:layout_below="@id/sync_status"
+      android:layout_below="@id/upload_status"
       android:layout_centerInParent="true"
       android:text="@string/upload"
       android:textSize="18sp" android:textStyle="bold"
