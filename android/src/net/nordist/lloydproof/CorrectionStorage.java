@@ -81,12 +81,19 @@ public class CorrectionStorage extends SQLiteOpenHelper
         return jarray;
     }
 
-    // FIXME change to delete by JSON status array
-    public void deleteById(int id) {
-        String where = "id=?";
-        String[] wherevals = new String[] {Integer.toString(id)};
+    // FIXME refactor
+    // FIXME return deleted count
+    public void deleteByJsonArrayStatus(JSONArray status_array) throws JSONException {
         this.openWriteDB();
-        writeDB.delete(TABLE_NAME, where, wherevals);
+        for (int i = 0; i < status_array.length(); i++) {
+            JSONObject status = status_array.getJSONObject(i);
+            if (status.getString("status").equals("ok")) {
+                int sync_id = status.getInt("sync_id");
+                String[] wherevals = new String[] {Integer.toString(sync_id)};
+                writeDB.delete(TABLE_NAME, "id=?", wherevals);
+                Log.d(TAG, "deleted id=" + sync_id);
+            }
+        }
     }
 
     public void close() {

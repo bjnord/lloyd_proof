@@ -52,7 +52,8 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             Log.d(TAG, "upload JSON: " + upload_json.toString());
             JSONArray status_json = this.upload(upload_json);
             Log.d(TAG, "status JSON: " + status_json.toString());
-            // FIXME delete from local DB based on status
+            // FIXME get return value (number uploaded)
+            store.deleteByJsonArrayStatus(status_json);
         } catch (JSONException jex) {
             Log.e(TAG, "error constructing JSON: " + jex.getMessage());
             this.cancel(true);
