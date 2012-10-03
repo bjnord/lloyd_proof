@@ -52,7 +52,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             Log.d(TAG, "upload JSON: " + upload_json.toString());
             JSONArray status_json = this.upload(upload_json);
             Log.d(TAG, "status JSON: " + status_json.toString());
-            // FIXME get return value (number uploaded)
+            // FIXME use count from delete call as "# successfully uploaded"
             store.deleteByJsonArrayStatus(status_json);
         } catch (JSONException jex) {
             Log.e(TAG, "error constructing JSON: " + jex.getMessage());
@@ -64,13 +64,13 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result) {
         Log.d(TAG, "onPostExecute() fired");
-        // FIXME reenable Upload button
+        // FIXME reenable Upload button, refresh upload_status count
     }
 
     @Override
     protected void onCancelled(Void result) {
         Log.d(TAG, "onCancelled() fired");
-        // FIXME reenable Upload button
+        // FIXME reenable Upload button, refresh upload_status count
     }
 
     // FIXME refactor
