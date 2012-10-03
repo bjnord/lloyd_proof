@@ -27,16 +27,16 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private final String BASE_URL = "http://10.0.2.2:3000/";
 
     private CorrectionStorage store;
-    private CorrectionUploadResponder responder;
+    private CorrectionUploadObserver observer;
     private int uploadedCount;
     // FIXME RF context and resources aren't used outside of constructor
     private Context context;
     private Resources resources;
 
-    public CorrectionUploader(Context pContext, CorrectionUploadResponder pResponder) {
+    public CorrectionUploader(Context pContext, CorrectionUploadObserver pObserver) {
         super();
         context = pContext;
-        responder = pResponder;
+        observer = pObserver;
         uploadedCount = 0;
         resources = context.getResources();
         store = new CorrectionStorage(context);
@@ -45,7 +45,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPreExecute() {
         Log.d(TAG, "onPreExecute() fired");
-        // FIXME gray out Upload button
+        // FIXME call observer.start() to disable Upload button
     }
 
     // FIXME refactor
@@ -68,14 +68,15 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result) {
         Log.d(TAG, "onPostExecute() fired");
-        responder.announceUploadedCount(uploadedCount);
-        // FIXME reenable Upload button
+        observer.uploadSuccess(uploadedCount);
+        // FIXME call observer.stop() to reenable Upload button
     }
 
     @Override
     protected void onCancelled(Void result) {
         Log.d(TAG, "onCancelled() fired");
-        // FIXME reenable Upload button, announce cancellation
+        // FIXME call observer.uploadFailure() to toast error
+        // FIXME call observer.stop() to reenable Upload button
     }
 
     // FIXME refactor

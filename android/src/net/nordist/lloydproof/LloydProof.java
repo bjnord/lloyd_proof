@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LloydProof extends Activity implements CorrectionUploadResponder
+public class LloydProof extends Activity implements CorrectionUploadObserver
 {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -69,8 +69,8 @@ public class LloydProof extends Activity implements CorrectionUploadResponder
         }
     }
 
-    public void announceUploadedCount(int count) {
-        Log.d(TAG, "announceUploadedCount(" + count + ")");
+    public void uploadSuccess(int count) {
+        Log.d(TAG, "uploadSuccess(" + count + ")");
         this.updateUploadStatus();
         // FIXME call showStatus() to display toast
     }
