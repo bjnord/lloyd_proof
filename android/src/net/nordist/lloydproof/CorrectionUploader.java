@@ -29,6 +29,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private CorrectionStorage store;
     private CorrectionUploadObserver observer;
     private int uploadedCount;
+    private String failureMessage;
     // FIXME RF context and resources aren't used outside of constructor
     private Context context;
     private Resources resources;
@@ -38,6 +39,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         context = pContext;
         observer = pObserver;
         uploadedCount = 0;
+        failureMessage = "";
         resources = context.getResources();
         store = new CorrectionStorage(context);
     }
@@ -59,7 +61,8 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             Log.d(TAG, "status JSON: " + status_json.toString());
             uploadedCount = store.deleteByJsonArrayStatus(status_json);
         } catch (JSONException jex) {
-            Log.e(TAG, "error constructing JSON: " + jex.getMessage());
+            failureMessage = jex.getClass().getSimpleName() + ": " + jex.getMessage();
+            Log.e(TAG, failureMessage);
             this.cancel(true);
         }
         return null;
@@ -75,7 +78,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected void onCancelled(Void result) {
         Log.d(TAG, "onCancelled() fired");
-        // FIXME call observer.uploadFailure() to toast error
+        observer.uploadFailure(failureMessage);
         observer.uploadStop();
     }
 
@@ -91,18 +94,21 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             httpRequest.setEntity(entity);
             HttpResponse httpResponse = httpClient.execute(httpRequest);
             StatusLine statusLine = httpResponse.getStatusLine();
+            String statusString = "HTTP " + statusLine.getStatusCode() + " " +
+                statusLine.getReasonPhrase();
             if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                Log.d(TAG, statusString);
                 byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
                 statusJson = new JSONArray(new String(body, "UTF-8"));
+            } else {
+                failureMessage = statusString;
+                Log.e(TAG, failureMessage);
+                this.cancel(true);
             }
-            Log.e(TAG, "HTTP " + statusLine.getStatusCode() + " " +
-                statusLine.getReasonPhrase());
-        } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "UEE " + e.getMessage());
-        } catch (IOException e) {
-            Log.e(TAG, "IOE " + e.getMessage());
-        } catch (JSONException e) {
-            Log.e(TAG, "JE " + e.getMessage());
+        } catch (Exception e) {
+            failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
+            Log.e(TAG, failureMessage);
+            this.cancel(true);
         }
         return statusJson;
     }

@@ -87,8 +87,8 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     public void uploadFailure(String message) {
         Log.d(TAG, "uploadFailure(" + message + ")");
+        this.showStatus(message);
         this.updateUploadStatus();
-        // FIXME call showStatus() to display toast
     }
 
     public void uploadStop() {
