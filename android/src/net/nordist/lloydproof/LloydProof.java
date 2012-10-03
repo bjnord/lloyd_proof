@@ -62,11 +62,16 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         TextView upload_status = (TextView)findViewById(R.id.upload_status);
         int count = store.count();
         if (count > 0) {
-            String plural_count = resources.getQuantityString(R.plurals.corrections, count, count);
-            upload_status.setText(plural_count + " " + resources.getString(R.string.to_upload));
+            upload_status.setText(this.pluralCorrectionCount(count) + " " +
+                resources.getString(R.string.to_upload));
         } else {
             upload_status.setText(resources.getString(R.string.all_uploaded));
         }
+    }
+
+    private String pluralCorrectionCount(int count) {
+        // FIXME do this with %s so l10n can change the word order too
+        return resources.getQuantityString(R.plurals.corrections, count, count);
     }
 
     public void uploadStart() {
@@ -75,8 +80,9 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     public void uploadSuccess(int count) {
         Log.d(TAG, "uploadSuccess(" + count + ")");
+        this.showStatus(resources.getString(R.string.uploaded) + " " +
+            this.pluralCorrectionCount(count) + ".");
         this.updateUploadStatus();
-        // FIXME call showStatus() to display toast
     }
 
     public void uploadFailure(String message) {

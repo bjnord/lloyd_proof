@@ -4,6 +4,7 @@
     <string name="paste_here">Enter/Paste incorrect text</string>
     <string name="save">Save</string>
     <string name="upload">Upload</string>
+    <string name="uploaded">Uploaded</string>
     <string name="to_upload">to upload</string>
     <string name="all_uploaded">All corrections uploaded</string>
     <string name="correction_saved">Correction saved.</string>
