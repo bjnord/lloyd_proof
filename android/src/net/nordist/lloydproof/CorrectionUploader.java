@@ -45,7 +45,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPreExecute() {
         Log.d(TAG, "onPreExecute() fired");
-        // FIXME call observer.start() to disable Upload button
+        observer.uploadStart();
     }
 
     // FIXME refactor
@@ -69,14 +69,14 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     protected void onPostExecute(Void result) {
         Log.d(TAG, "onPostExecute() fired");
         observer.uploadSuccess(uploadedCount);
-        // FIXME call observer.stop() to reenable Upload button
+        observer.uploadStop();
     }
 
     @Override
     protected void onCancelled(Void result) {
         Log.d(TAG, "onCancelled() fired");
         // FIXME call observer.uploadFailure() to toast error
-        // FIXME call observer.stop() to reenable Upload button
+        observer.uploadStop();
     }
 
     // FIXME refactor

@@ -69,9 +69,23 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         }
     }
 
+    public void uploadStart() {
+        findViewById(R.id.upload_button).setEnabled(false);
+    }
+
     public void uploadSuccess(int count) {
         Log.d(TAG, "uploadSuccess(" + count + ")");
         this.updateUploadStatus();
         // FIXME call showStatus() to display toast
+    }
+
+    public void uploadFailure(String message) {
+        Log.d(TAG, "uploadFailure(" + message + ")");
+        this.updateUploadStatus();
+        // FIXME call showStatus() to display toast
+    }
+
+    public void uploadStop() {
+        findViewById(R.id.upload_button).setEnabled(true);
     }
 }
