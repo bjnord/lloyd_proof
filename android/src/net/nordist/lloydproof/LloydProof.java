@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LloydProof extends Activity
+public class LloydProof extends Activity implements CorrectionUploadResponder
 {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -50,7 +50,7 @@ public class LloydProof extends Activity
     }
 
     public void uploadCorrections(View view) {
-        uploader = new CorrectionUploader(this);
+        uploader = new CorrectionUploader(this, this);
         uploader.execute();
     }
 
@@ -67,5 +67,11 @@ public class LloydProof extends Activity
         } else {
             upload_status.setText(resources.getString(R.string.all_uploaded));
         }
+    }
+
+    public void announceUploadedCount(int count) {
+        Log.d(TAG, "announceUploadedCount(" + count + ")");
+        this.updateUploadStatus();
+        // FIXME call showStatus() to display toast
     }
 }

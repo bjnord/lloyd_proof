@@ -27,12 +27,17 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private final String BASE_URL = "http://10.0.2.2:3000/";
 
     private CorrectionStorage store;
+    private CorrectionUploadResponder responder;
+    private int uploadedCount;
+    // FIXME RF context and resources aren't used outside of constructor
     private Context context;
     private Resources resources;
 
-    public CorrectionUploader(Context pContext) {
+    public CorrectionUploader(Context pContext, CorrectionUploadResponder pResponder) {
         super();
         context = pContext;
+        responder = pResponder;
+        uploadedCount = 0;
         resources = context.getResources();
         store = new CorrectionStorage(context);
     }
@@ -52,8 +57,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             Log.d(TAG, "upload JSON: " + upload_json.toString());
             JSONArray status_json = this.upload(upload_json);
             Log.d(TAG, "status JSON: " + status_json.toString());
-            // FIXME use count from delete call as "# successfully uploaded"
-            store.deleteByJsonArrayStatus(status_json);
+            uploadedCount = store.deleteByJsonArrayStatus(status_json);
         } catch (JSONException jex) {
             Log.e(TAG, "error constructing JSON: " + jex.getMessage());
             this.cancel(true);
@@ -64,13 +68,14 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void result) {
         Log.d(TAG, "onPostExecute() fired");
-        // FIXME reenable Upload button, refresh upload_status count
+        responder.announceUploadedCount(uploadedCount);
+        // FIXME reenable Upload button
     }
 
     @Override
     protected void onCancelled(Void result) {
         Log.d(TAG, "onCancelled() fired");
-        // FIXME reenable Upload button, refresh upload_status count
+        // FIXME reenable Upload button, announce cancellation
     }
 
     // FIXME refactor
