@@ -13,7 +13,7 @@
       android:scrollHorizontally="false"
       android:hint="@string/paste_here" />
     <Button
-      android:id="@+id/Button01"
+      android:id="@+id/save_button"
       android:layout_width="100dip"
       android:layout_height="wrap_content"
       android:layout_below="@id/current_text"
@@ -26,12 +26,12 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="4dip"
-      android:layout_below="@id/Button01"
+      android:layout_below="@id/save_button"
       android:gravity="center_horizontal"
       android:text=""
       android:textSize="18sp" />
     <Button
-      android:id="@+id/Button02"
+      android:id="@+id/upload_button"
       android:layout_width="100dip"
       android:layout_height="wrap_content"
       android:layout_marginTop="2dip"
