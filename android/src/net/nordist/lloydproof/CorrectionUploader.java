@@ -77,7 +77,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         String url = BASE_URL + "corrections/sync.json";
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpRequest = new HttpPost(url);
-        JSONArray statii = new JSONArray();
+        JSONArray statusJson = new JSONArray();
         try {
             StringEntity entity = new StringEntity(json.toString(), HTTP.UTF_8);
             entity.setContentType("application/json");
@@ -86,17 +86,17 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             StatusLine statusLine = httpResponse.getStatusLine();
             if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                 byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
-                String jsonString = new String(body, "UTF-8");
-                Log.d(TAG, "HTTP OK " + jsonString);
-            } else {
-                Log.e(TAG, "HTTP " + statusLine.getStatusCode() + " " +
-                    statusLine.getReasonPhrase());
+                statusJson = new JSONArray(new String(body, "UTF-8"));
             }
+            Log.e(TAG, "HTTP " + statusLine.getStatusCode() + " " +
+                statusLine.getReasonPhrase());
         } catch (UnsupportedEncodingException e) {
             Log.e(TAG, "UEE " + e.getMessage());
         } catch (IOException e) {
             Log.e(TAG, "IOE " + e.getMessage());
+        } catch (JSONException e) {
+            Log.e(TAG, "JE " + e.getMessage());
         }
-        return statii;
+        return statusJson;
     }
 }
