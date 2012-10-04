@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +63,18 @@ public class CorrectionStorage extends SQLiteOpenHelper
         }
     }
 
+    public int deleteByIdList(List<Integer> idList) {
+        openWriteDB();
+        int deletedCount = 0;
+        Iterator<Integer> i = idList.iterator();
+        while (i.hasNext()) {
+            String idString = i.next().toString();
+            deletedCount += writeDB.delete(TABLE_NAME, "id=?", new String[] {idString});
+            Log.d(TAG, "deleted id=" + idString);
+        }
+        return deletedCount;
+    }
+
     private JSONObject getNextAsJSONObject(Cursor cursor) throws JSONException {
         JSONObject jobject = new JSONObject();
         jobject.put("sync_id", cursor.getInt(0));
@@ -78,22 +92,6 @@ public class CorrectionStorage extends SQLiteOpenHelper
             jarray.put(getNextAsJSONObject(cursor));
         }
         return jarray;
-    }
-
-    // FIXME refactor
-    public int deleteByJSONArrayStatus(JSONArray statusArray) throws JSONException {
-        openWriteDB();
-        int deletedCount = 0;
-        for (int i = 0; i < statusArray.length(); i++) {
-            JSONObject status = statusArray.getJSONObject(i);
-            if (status.getString("status").equals("ok")) {
-                int syncId = status.getInt("sync_id");
-                String[] wherevals = new String[] {Integer.toString(syncId)};
-                deletedCount += writeDB.delete(TABLE_NAME, "id=?", wherevals);
-                Log.d(TAG, "deleted id=" + syncId);
-            }
-        }
-        return deletedCount;
     }
 
     public void close() {

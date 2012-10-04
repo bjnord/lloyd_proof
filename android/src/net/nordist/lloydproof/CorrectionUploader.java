@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
@@ -121,7 +124,13 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         if (isCancelled()) {
             return;
         }
-        // FIXME RF parse the JSON here, call store.deleteByIdArray(int[])
-        uploadedCount = store.deleteByJSONArrayStatus(statusJSON);
+        List<Integer> idsToDelete = new ArrayList<Integer>();
+        for (int i = 0; i < statusJSON.length(); i++) {
+            JSONObject status = statusJSON.getJSONObject(i);
+            if (status.getString("status").equals("ok")) {
+                idsToDelete.add(status.getInt("sync_id"));
+            }
+        }
+        uploadedCount = store.deleteByIdList(idsToDelete);
     }
 }
