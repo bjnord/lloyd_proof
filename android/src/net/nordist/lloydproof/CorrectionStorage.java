@@ -15,8 +15,8 @@ public class CorrectionStorage extends SQLiteOpenHelper
 {
     private final String TAG = getClass().getSimpleName();
 
-    private SQLiteDatabase writeDB = null;
-    private SQLiteDatabase readDB = null;
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
 
     public static final String TABLE_NAME = "corrections";
     private static final String DATABASE_NAME = "corrections.db";

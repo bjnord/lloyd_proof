@@ -33,8 +33,6 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     public CorrectionUploader(Context context, CorrectionUploadObserver observer) {
         super();
         this.observer = observer;
-        uploadedCount = 0;
-        failureMessage = "";
         store = new CorrectionStorage(context);
     }
 
