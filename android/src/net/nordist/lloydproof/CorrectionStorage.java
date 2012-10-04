@@ -43,9 +43,9 @@ public class CorrectionStorage extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public int save(String current_text) {
+    public int save(String currentText) {
         ContentValues values = new ContentValues();
-        values.put("current_text", current_text);
+        values.put("current_text", currentText);
         this.openWriteDB();
         return (int)writeDB.insert(TABLE_NAME, null, values);
     }
@@ -82,16 +82,16 @@ public class CorrectionStorage extends SQLiteOpenHelper
     }
 
     // FIXME refactor
-    public int deleteByJSONArrayStatus(JSONArray status_array) throws JSONException {
+    public int deleteByJSONArrayStatus(JSONArray statusArray) throws JSONException {
         this.openWriteDB();
         int deletedCount = 0;
-        for (int i = 0; i < status_array.length(); i++) {
-            JSONObject status = status_array.getJSONObject(i);
+        for (int i = 0; i < statusArray.length(); i++) {
+            JSONObject status = statusArray.getJSONObject(i);
             if (status.getString("status").equals("ok")) {
-                int sync_id = status.getInt("sync_id");
-                String[] wherevals = new String[] {Integer.toString(sync_id)};
+                int syncId = status.getInt("sync_id");
+                String[] wherevals = new String[] {Integer.toString(syncId)};
                 deletedCount += writeDB.delete(TABLE_NAME, "id=?", wherevals);
-                Log.d(TAG, "deleted id=" + sync_id);
+                Log.d(TAG, "deleted id=" + syncId);
             }
         }
         return deletedCount;

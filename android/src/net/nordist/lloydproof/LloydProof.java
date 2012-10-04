@@ -60,16 +60,16 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void saveCorrection(View view) {
-        EditText edit_text = (EditText)findViewById(R.id.current_text);
-        String current_text = edit_text.getText().toString();
-        if (current_text.isEmpty()) {
+        EditText editText = (EditText)findViewById(R.id.current_text);
+        String currentText = editText.getText().toString();
+        if (currentText.isEmpty()) {
             Log.d(TAG, "not saving empty correction");
             return;
         }
-        int id = store.save(current_text);
+        int id = store.save(currentText);
         if (id > 0) {
             Log.d(TAG, "saved correction as id=" + id);
-            edit_text.setText("", TextView.BufferType.EDITABLE);
+            editText.setText("", TextView.BufferType.EDITABLE);
             this.showStatus(resources.getString(R.string.correction_saved));
         } else {
             Log.e(TAG, "error saving correction");
@@ -88,13 +88,13 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     private void updateUploadStatus() {
-        TextView upload_status = (TextView)findViewById(R.id.upload_status);
+        TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
         int count = store.count();
         if (count > 0) {
-            upload_status.setText(this.pluralCorrectionCount(count) + " " +
+            uploadStatus.setText(this.pluralCorrectionCount(count) + " " +
                 resources.getString(R.string.to_upload));
         } else {
-            upload_status.setText(resources.getString(R.string.all_uploaded));
+            uploadStatus.setText(resources.getString(R.string.all_uploaded));
         }
     }
 
