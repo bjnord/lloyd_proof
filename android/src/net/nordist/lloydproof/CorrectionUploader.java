@@ -80,7 +80,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     protected JSONObject createCorrectionsJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("corrections", store.getAllAsJsonArray());
+        json.put("corrections", store.getAllAsJSONArray());
         Log.d(TAG, "corrections JSON: " + json.toString());
         return json;
     }
@@ -129,6 +129,6 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             return;
         }
         // FIXME RF parse the JSON here, call store.deleteByIdArray(int[])
-        uploadedCount = store.deleteByJsonArrayStatus(statusJSON);
+        uploadedCount = store.deleteByJSONArrayStatus(statusJSON);
     }
 }

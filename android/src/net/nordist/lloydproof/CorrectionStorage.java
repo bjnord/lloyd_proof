@@ -62,27 +62,27 @@ public class CorrectionStorage extends SQLiteOpenHelper
         }
     }
 
-    private JSONObject getNextAsJsonObject(Cursor cursor) throws JSONException {
+    private JSONObject getNextAsJSONObject(Cursor cursor) throws JSONException {
         JSONObject jobject = new JSONObject();
         jobject.put("sync_id", cursor.getInt(0));
         jobject.put("current_text", cursor.getString(1));
         return jobject;
     }
 
-    public JSONArray getAllAsJsonArray() throws JSONException {
+    public JSONArray getAllAsJSONArray() throws JSONException {
         this.openReadDB();
         Cursor cursor = readDB.query(TABLE_NAME,
             new String[] {"id", "current_text"},
             null, null, null, null, null);
         JSONArray jarray = new JSONArray();
         while (cursor.moveToNext()) {
-            jarray.put(this.getNextAsJsonObject(cursor));
+            jarray.put(this.getNextAsJSONObject(cursor));
         }
         return jarray;
     }
 
     // FIXME refactor
-    public int deleteByJsonArrayStatus(JSONArray status_array) throws JSONException {
+    public int deleteByJSONArrayStatus(JSONArray status_array) throws JSONException {
         this.openWriteDB();
         int deletedCount = 0;
         for (int i = 0; i < status_array.length(); i++) {
