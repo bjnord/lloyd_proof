@@ -20,7 +20,9 @@
 
 # Android built application files
 *.apk
+*.apk.d
 *.ap_
+*.ap_.d
 
 # Java and Dalvik class files
 *.class
@@ -29,3 +31,5 @@
 # Android generated files
 android/bin/
 android/gen/
+android/tests/bin/
+android/tests/gen/
