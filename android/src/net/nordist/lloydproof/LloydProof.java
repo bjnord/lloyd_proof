@@ -83,7 +83,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     private void showStatus(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void updateUploadStatus() {
