@@ -92,6 +92,21 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     protected JSONArray uploadCorrectionsJSON(String jsonString)
             throws UnsupportedEncodingException, IOException, JSONException {
         HttpResponse httpResponse = this.sendCorrectionsHttpRequest(jsonString);
+        return this.parseCorrectionsHttpResponse(httpResponse);
+    }
+
+    protected HttpResponse sendCorrectionsHttpRequest(String jsonString)
+            throws UnsupportedEncodingException, IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpRequest = new HttpPost(BASE_URL + "corrections/sync.json");
+        StringEntity entity = new StringEntity(jsonString, HTTP.UTF_8);
+        entity.setContentType("application/json");
+        httpRequest.setEntity(entity);
+        return httpClient.execute(httpRequest);
+    }
+
+    protected JSONArray parseCorrectionsHttpResponse(HttpResponse httpResponse)
+            throws UnsupportedEncodingException, IOException, JSONException {
         JSONArray statusJSON = new JSONArray();
         StatusLine statusLine = httpResponse.getStatusLine();
         String statusString = "HTTP " + statusLine.getStatusCode() + " " +
@@ -106,15 +121,5 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             this.cancel(true);
         }
         return statusJSON;
-    }
-
-    protected HttpResponse sendCorrectionsHttpRequest(String jsonString)
-            throws UnsupportedEncodingException, IOException {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpRequest = new HttpPost(BASE_URL + "corrections/sync.json");
-        StringEntity entity = new StringEntity(jsonString, HTTP.UTF_8);
-        entity.setContentType("application/json");
-        httpRequest.setEntity(entity);
-        return httpClient.execute(httpRequest);
     }
 }
