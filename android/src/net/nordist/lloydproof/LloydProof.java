@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +30,12 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         uploader = null;
         setContentView(R.layout.main);
         this.updateUploadStatus();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     public void saveCorrection(View view) {
@@ -93,5 +101,9 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     public void uploadStop() {
         findViewById(R.id.upload_button).setEnabled(true);
+    }
+
+    public void about(MenuItem item) {
+        Log.d(TAG, "about() fired");
     }
 }
