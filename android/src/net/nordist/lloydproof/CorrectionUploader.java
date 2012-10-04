@@ -53,7 +53,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            String correctionsJSON = this.createCorrectionsJSON();
+            JSONObject correctionsJSON = this.createCorrectionsJSON();
             JSONArray statusJSON = this.uploadCorrectionsJSON(correctionsJSON);
             this.deleteCorrectionsWithSuccessfulStatus(statusJSON);
         } catch (Exception e) {
@@ -78,17 +78,16 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         observer.uploadStop();
     }
 
-    protected String createCorrectionsJSON() throws JSONException {
+    protected JSONObject createCorrectionsJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("corrections", store.getAllAsJsonArray());
-        String jsonString = json.toString();
-        Log.d(TAG, "corrections JSON: " + jsonString);
-        return jsonString;
+        Log.d(TAG, "corrections JSON: " + json.toString());
+        return json;
     }
 
-    protected JSONArray uploadCorrectionsJSON(String jsonString)
+    protected JSONArray uploadCorrectionsJSON(JSONObject json)
             throws UnsupportedEncodingException, IOException, JSONException {
-        HttpResponse httpResponse = this.sendCorrectionsHttpRequest(jsonString);
+        HttpResponse httpResponse = this.sendCorrectionsHttpRequest(json.toString());
         this.cancelOnHttpResponseFailure(httpResponse);
         if (this.isCancelled()) {
             return new JSONArray();
