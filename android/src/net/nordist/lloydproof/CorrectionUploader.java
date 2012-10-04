@@ -50,13 +50,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         observer.uploadStart();
     }
 
-    // FIXME refactor
     @Override
     protected Void doInBackground(Void... params) {
         try {
             String correctionsJSON = this.createCorrectionsJSON();
             JSONArray statusJSON = this.uploadCorrectionsJSON(correctionsJSON);
-            uploadedCount = store.deleteByJsonArrayStatus(statusJSON);
+            this.deleteCorrectionsWithSuccessfulStatus(statusJSON);
         } catch (Exception e) {
             failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
             Log.e(TAG, failureMessage);
@@ -123,5 +122,14 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         JSONArray statusJSON = new JSONArray(new String(body, "UTF-8"));
         Log.d(TAG, "status JSON: " + statusJSON.toString());
         return statusJSON;
+    }
+
+    protected void deleteCorrectionsWithSuccessfulStatus(JSONArray statusJSON)
+            throws JSONException {
+        if (this.isCancelled()) {
+            return;
+        }
+        // FIXME RF parse the JSON here, call store.deleteByIdArray(int[])
+        uploadedCount = store.deleteByJsonArrayStatus(statusJSON);
     }
 }
