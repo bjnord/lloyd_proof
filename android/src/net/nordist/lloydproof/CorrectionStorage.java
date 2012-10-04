@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 public class CorrectionStorage extends SQLiteOpenHelper
 {
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
 
     private SQLiteDatabase writeDB = null;
     private SQLiteDatabase readDB = null;
@@ -46,12 +46,12 @@ public class CorrectionStorage extends SQLiteOpenHelper
     public int save(String currentText) {
         ContentValues values = new ContentValues();
         values.put("current_text", currentText);
-        this.openWriteDB();
+        openWriteDB();
         return (int)writeDB.insert(TABLE_NAME, null, values);
     }
 
     public int count() {
-        this.openReadDB();
+        openReadDB();
         Cursor cursor = readDB.query(TABLE_NAME, new String[] {"COUNT(1)"},
             null, null, null, null, null);
         if (cursor.getCount() > 0) {
@@ -70,20 +70,20 @@ public class CorrectionStorage extends SQLiteOpenHelper
     }
 
     public JSONArray getAllAsJSONArray() throws JSONException {
-        this.openReadDB();
+        openReadDB();
         Cursor cursor = readDB.query(TABLE_NAME,
             new String[] {"id", "current_text"},
             null, null, null, null, null);
         JSONArray jarray = new JSONArray();
         while (cursor.moveToNext()) {
-            jarray.put(this.getNextAsJSONObject(cursor));
+            jarray.put(getNextAsJSONObject(cursor));
         }
         return jarray;
     }
 
     // FIXME refactor
     public int deleteByJSONArrayStatus(JSONArray statusArray) throws JSONException {
-        this.openWriteDB();
+        openWriteDB();
         int deletedCount = 0;
         for (int i = 0; i < statusArray.length(); i++) {
             JSONObject status = statusArray.getJSONObject(i);
@@ -118,13 +118,13 @@ public class CorrectionStorage extends SQLiteOpenHelper
 
     private void openWriteDB() {
         if (writeDB == null) {
-            writeDB = this.getWritableDatabase();
+            writeDB = getWritableDatabase();
         }
     }
 
     private void openReadDB() {
         if (readDB == null) {
-            readDB = this.getReadableDatabase();
+            readDB = getReadableDatabase();
         }
     }
 }

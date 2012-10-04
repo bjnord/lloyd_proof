@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 {
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
     private final String BASE_URL = "http://10.0.2.2:3000/";
 
     private CorrectionStorage store;
@@ -30,9 +30,9 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private int uploadedCount;
     private String failureMessage;
 
-    public CorrectionUploader(Context context, CorrectionUploadObserver pObserver) {
+    public CorrectionUploader(Context context, CorrectionUploadObserver observer) {
         super();
-        observer = pObserver;
+        this.observer = observer;
         uploadedCount = 0;
         failureMessage = "";
         store = new CorrectionStorage(context);
@@ -47,13 +47,13 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            JSONObject correctionsJSON = this.createCorrectionsJSON();
-            JSONArray statusJSON = this.uploadCorrectionsJSON(correctionsJSON);
-            this.deleteCorrectionsWithSuccessfulStatus(statusJSON);
+            JSONObject correctionsJSON = createCorrectionsJSON();
+            JSONArray statusJSON = uploadCorrectionsJSON(correctionsJSON);
+            deleteCorrectionsWithSuccessfulStatus(statusJSON);
         } catch (Exception e) {
             failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
             Log.e(TAG, failureMessage);
-            this.cancel(true);
+            cancel(true);
         }
         return null;
     }
@@ -81,12 +81,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     protected JSONArray uploadCorrectionsJSON(JSONObject json)
             throws UnsupportedEncodingException, IOException, JSONException {
-        HttpResponse httpResponse = this.sendCorrectionsHttpRequest(json.toString());
-        this.cancelOnHttpResponseFailure(httpResponse);
-        if (this.isCancelled()) {
+        HttpResponse httpResponse = sendCorrectionsHttpRequest(json.toString());
+        cancelOnHttpResponseFailure(httpResponse);
+        if (isCancelled()) {
             return new JSONArray();
         }
-        return this.parseCorrectionsHttpResponse(httpResponse);
+        return parseCorrectionsHttpResponse(httpResponse);
     }
 
     protected HttpResponse sendCorrectionsHttpRequest(String jsonString)
@@ -105,7 +105,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             failureMessage = "HTTP " + statusLine.getStatusCode() + " " +
                 statusLine.getReasonPhrase();
             Log.e(TAG, failureMessage);
-            this.cancel(true);
+            cancel(true);
         }
     }
 
@@ -119,7 +119,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     protected void deleteCorrectionsWithSuccessfulStatus(JSONArray statusJSON)
             throws JSONException {
-        if (this.isCancelled()) {
+        if (isCancelled()) {
             return;
         }
         // FIXME RF parse the JSON here, call store.deleteByIdArray(int[])

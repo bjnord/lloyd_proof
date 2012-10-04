@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 public class LloydProof extends Activity implements CorrectionUploadObserver
 {
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
     private static final int DIALOG_ABOUT = 0;
 
     private CorrectionStorage store;
@@ -33,7 +33,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         store = new CorrectionStorage(this);
         uploader = null;
         setContentView(R.layout.main);
-        this.updateUploadStatus();
+        updateUploadStatus();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.about_app_name);
         // FIXME set app version with %s; ditch app_name_and_version string
-        builder.setView(this.getLayoutInflater().inflate(R.layout.about, null));
+        builder.setView(getLayoutInflater().inflate(R.layout.about, null));
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
@@ -70,12 +70,12 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         if (id > 0) {
             Log.d(TAG, "saved correction as id=" + id);
             editText.setText("", TextView.BufferType.EDITABLE);
-            this.showStatus(resources.getString(R.string.correction_saved));
+            showStatus(resources.getString(R.string.correction_saved));
         } else {
             Log.e(TAG, "error saving correction");
-            this.showStatus(resources.getString(R.string.correction_save_error));
+            showStatus(resources.getString(R.string.correction_save_error));
         }
-        this.updateUploadStatus();
+        updateUploadStatus();
     }
 
     public void uploadCorrections(View view) {
@@ -91,7 +91,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
         int count = store.count();
         if (count > 0) {
-            uploadStatus.setText(this.pluralCorrectionCount(count) + " " +
+            uploadStatus.setText(pluralCorrectionCount(count) + " " +
                 resources.getString(R.string.to_upload));
         } else {
             uploadStatus.setText(resources.getString(R.string.all_uploaded));
@@ -109,15 +109,15 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     public void uploadSuccess(int count) {
         Log.d(TAG, "uploadSuccess(" + count + ")");
-        this.showStatus(resources.getString(R.string.uploaded) + " " +
-            this.pluralCorrectionCount(count) + ".");
-        this.updateUploadStatus();
+        showStatus(resources.getString(R.string.uploaded) + " " +
+            pluralCorrectionCount(count) + ".");
+        updateUploadStatus();
     }
 
     public void uploadFailure(String message) {
         Log.d(TAG, "uploadFailure(" + message + ")");
-        this.showStatus(message);
-        this.updateUploadStatus();
+        showStatus(message);
+        updateUploadStatus();
     }
 
     public void uploadStop() {
