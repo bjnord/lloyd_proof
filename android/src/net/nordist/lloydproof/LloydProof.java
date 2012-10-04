@@ -22,14 +22,10 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     private CorrectionStorage store;
     private CorrectionUploader uploader;
-    private Context context;
-    private Resources resources;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        resources = context.getResources();
         store = new CorrectionStorage(this);
         setContentView(R.layout.main);
         updateUploadStatus();
@@ -69,10 +65,10 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         if (id > 0) {
             Log.d(TAG, "saved correction as id=" + id);
             editText.setText("", TextView.BufferType.EDITABLE);
-            showStatus(resources.getString(R.string.correction_saved));
+            showStatus(getString(R.string.correction_saved));
         } else {
             Log.e(TAG, "error saving correction");
-            showStatus(resources.getString(R.string.correction_save_error));
+            showStatus(getString(R.string.correction_save_error));
         }
         updateUploadStatus();
     }
@@ -90,16 +86,15 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
         int count = store.count();
         if (count > 0) {
-            uploadStatus.setText(pluralCorrectionCount(count) + " " +
-                resources.getString(R.string.to_upload));
+            uploadStatus.setText(pluralCorrectionCount(count) + " " + getString(R.string.to_upload));
         } else {
-            uploadStatus.setText(resources.getString(R.string.all_uploaded));
+            uploadStatus.setText(getString(R.string.all_uploaded));
         }
     }
 
     private String pluralCorrectionCount(int count) {
         // FIXME do this with %s so l10n can change the word order too
-        return resources.getQuantityString(R.plurals.corrections, count, count);
+        return getResources().getQuantityString(R.plurals.corrections, count, count);
     }
 
     public void uploadStart() {
@@ -108,8 +103,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     public void uploadSuccess(int count) {
         Log.d(TAG, "uploadSuccess(" + count + ")");
-        showStatus(resources.getString(R.string.uploaded) + " " +
-            pluralCorrectionCount(count) + ".");
+        showStatus(getString(R.string.uploaded) + " " + pluralCorrectionCount(count) + ".");
         updateUploadStatus();
     }
 
