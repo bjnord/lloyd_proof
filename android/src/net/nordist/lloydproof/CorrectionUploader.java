@@ -55,9 +55,9 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     protected Void doInBackground(Void... params) {
         try {
             JSONObject correctionsJSON = this.createCorrectionsJSON();
-            JSONArray status_json = this.upload(correctionsJSON);
-            Log.d(TAG, "status JSON: " + status_json.toString());
-            uploadedCount = store.deleteByJsonArrayStatus(status_json);
+            JSONArray statusJSON = this.uploadCorrectionsJSON(correctionsJSON);
+            Log.d(TAG, "status JSON: " + statusJSON.toString());
+            uploadedCount = store.deleteByJsonArrayStatus(statusJSON);
         } catch (Exception e) {
             failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
             Log.e(TAG, failureMessage);
@@ -87,34 +87,34 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         return json;
     }
 
+    // FIXME make argument a String not JSONObject
     // FIXME refactor
-    protected JSONArray upload(JSONObject json) {
-        String url = BASE_URL + "corrections/sync.json";
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpRequest = new HttpPost(url);
-        JSONArray statusJson = new JSONArray();
-        try {
-            StringEntity entity = new StringEntity(json.toString(), HTTP.UTF_8);
-            entity.setContentType("application/json");
-            httpRequest.setEntity(entity);
-            HttpResponse httpResponse = httpClient.execute(httpRequest);
-            StatusLine statusLine = httpResponse.getStatusLine();
-            String statusString = "HTTP " + statusLine.getStatusCode() + " " +
-                statusLine.getReasonPhrase();
-            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                Log.d(TAG, statusString);
-                byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
-                statusJson = new JSONArray(new String(body, "UTF-8"));
-            } else {
-                failureMessage = statusString;
-                Log.e(TAG, failureMessage);
-                this.cancel(true);
-            }
-        } catch (Exception e) {
-            failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
+    protected JSONArray uploadCorrectionsJSON(JSONObject json)
+            throws UnsupportedEncodingException, IOException, JSONException {
+        HttpResponse httpResponse = this.sendCorrectionsHttpRequest(json);
+        JSONArray statusJSON = new JSONArray();
+        StatusLine statusLine = httpResponse.getStatusLine();
+        String statusString = "HTTP " + statusLine.getStatusCode() + " " +
+            statusLine.getReasonPhrase();
+        if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+            Log.d(TAG, statusString);
+            byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
+            statusJSON = new JSONArray(new String(body, "UTF-8"));
+        } else {
+            failureMessage = statusString;
             Log.e(TAG, failureMessage);
             this.cancel(true);
         }
-        return statusJson;
+        return statusJSON;
+    }
+
+    protected HttpResponse sendCorrectionsHttpRequest(JSONObject json)
+            throws UnsupportedEncodingException, IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpRequest = new HttpPost(BASE_URL + "corrections/sync.json");
+        StringEntity entity = new StringEntity(json.toString(), HTTP.UTF_8);
+        entity.setContentType("application/json");
+        httpRequest.setEntity(entity);
+        return httpClient.execute(httpRequest);
     }
 }
