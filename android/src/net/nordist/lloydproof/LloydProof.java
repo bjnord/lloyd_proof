@@ -1,7 +1,10 @@
 package net.nordist.lloydproof;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 public class LloydProof extends Activity implements CorrectionUploadObserver
 {
     private final String TAG = this.getClass().getSimpleName();
+    private static final int DIALOG_ABOUT = 0;
 
     private CorrectionStorage store;
     private CorrectionUploader uploader;
@@ -36,6 +40,23 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public Dialog onCreateDialog(int id) {
+        if (id != DIALOG_ABOUT) {
+            return null;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.about_app_name);
+        // FIXME set app version with %s; ditch app_name_and_version string
+        builder.setView(this.getLayoutInflater().inflate(R.layout.about, null));
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        return builder.create();
     }
 
     public void saveCorrection(View view) {
@@ -104,6 +125,6 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void about(MenuItem item) {
-        Log.d(TAG, "about() fired");
+        showDialog(DIALOG_ABOUT);
     }
 }

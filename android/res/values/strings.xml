@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">LloydProof</string>
     <string name="about">About</string>
+    <string name="about_app_name">About LloydProof</string>
+    <string name="app_name_and_version">LloydProof v0.0</string>
+    <string name="app_author">Brent J. Nordquist</string>
     <string name="paste_here">Enter/Paste incorrect text</string>
     <string name="save">Save</string>
     <string name="upload">Upload</string>
