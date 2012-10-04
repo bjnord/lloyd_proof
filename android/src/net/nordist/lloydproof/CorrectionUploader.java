@@ -22,8 +22,9 @@ import org.json.JSONObject;
 
 public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 {
+    private static final String BASE_URL = "http://10.0.2.2:3000/";
+
     private final String TAG = getClass().getSimpleName();
-    private final String BASE_URL = "http://10.0.2.2:3000/";
 
     private CorrectionStorage store;
     private CorrectionUploadObserver observer;

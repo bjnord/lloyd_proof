@@ -17,8 +17,9 @@ import android.widget.Toast;
 
 public class LloydProof extends Activity implements CorrectionUploadObserver
 {
-    private final String TAG = getClass().getSimpleName();
     private static final int DIALOG_ABOUT = 0;
+
+    private final String TAG = getClass().getSimpleName();
 
     private CorrectionStorage store;
     private CorrectionUploader uploader;

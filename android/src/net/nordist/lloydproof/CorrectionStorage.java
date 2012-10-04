@@ -13,17 +13,14 @@ import org.json.JSONObject;
 
 public class CorrectionStorage extends SQLiteOpenHelper
 {
+    private static final String TABLE_NAME = "corrections";
+    private static final String DATABASE_NAME = "corrections.db";
+    private static final int DATABASE_VERSION = 1;
+
     private final String TAG = getClass().getSimpleName();
 
     private SQLiteDatabase writeDB;
     private SQLiteDatabase readDB;
-
-    public static final String TABLE_NAME = "corrections";
-    private static final String DATABASE_NAME = "corrections.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_NAME
-        + " (id integer PRIMARY KEY AUTOINCREMENT,"
-        + " current_text text NOT NULL DEFAULT '');";
 
     public CorrectionStorage(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,7 +29,9 @@ public class CorrectionStorage extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.w(TAG, "Creating database v" + DATABASE_VERSION);
-        db.execSQL(DATABASE_CREATE);
+        db.execSQL("CREATE TABLE " + TABLE_NAME +
+            " (id integer PRIMARY KEY AUTOINCREMENT," +
+            " current_text text NOT NULL DEFAULT '');");
     }
 
     @Override
