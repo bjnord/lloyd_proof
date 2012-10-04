@@ -56,7 +56,6 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         try {
             String correctionsJSON = this.createCorrectionsJSON();
             JSONArray statusJSON = this.uploadCorrectionsJSON(correctionsJSON);
-            Log.d(TAG, "status JSON: " + statusJSON.toString());
             uploadedCount = store.deleteByJsonArrayStatus(statusJSON);
         } catch (Exception e) {
             failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
@@ -88,10 +87,13 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         return jsonString;
     }
 
-    // FIXME refactor
     protected JSONArray uploadCorrectionsJSON(String jsonString)
             throws UnsupportedEncodingException, IOException, JSONException {
         HttpResponse httpResponse = this.sendCorrectionsHttpRequest(jsonString);
+        this.cancelOnHttpResponseFailure(httpResponse);
+        if (this.isCancelled()) {
+            return new JSONArray();
+        }
         return this.parseCorrectionsHttpResponse(httpResponse);
     }
 
@@ -105,21 +107,21 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         return httpClient.execute(httpRequest);
     }
 
-    protected JSONArray parseCorrectionsHttpResponse(HttpResponse httpResponse)
-            throws UnsupportedEncodingException, IOException, JSONException {
-        JSONArray statusJSON = new JSONArray();
+    protected void cancelOnHttpResponseFailure(HttpResponse httpResponse) {
         StatusLine statusLine = httpResponse.getStatusLine();
-        String statusString = "HTTP " + statusLine.getStatusCode() + " " +
-            statusLine.getReasonPhrase();
-        if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-            Log.d(TAG, statusString);
-            byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
-            statusJSON = new JSONArray(new String(body, "UTF-8"));
-        } else {
-            failureMessage = statusString;
+        if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
+            failureMessage = "HTTP " + statusLine.getStatusCode() + " " +
+                statusLine.getReasonPhrase();
             Log.e(TAG, failureMessage);
             this.cancel(true);
         }
+    }
+
+    protected JSONArray parseCorrectionsHttpResponse(HttpResponse httpResponse)
+            throws UnsupportedEncodingException, IOException, JSONException {
+        byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
+        JSONArray statusJSON = new JSONArray(new String(body, "UTF-8"));
+        Log.d(TAG, "status JSON: " + statusJSON.toString());
         return statusJSON;
     }
 }
