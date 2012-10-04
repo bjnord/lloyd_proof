@@ -54,14 +54,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            JSONObject upload_json = new JSONObject();
-            upload_json.put("corrections", store.getAllAsJsonArray());
-            Log.d(TAG, "upload JSON: " + upload_json.toString());
-            JSONArray status_json = this.upload(upload_json);
+            JSONObject correctionsJSON = this.createCorrectionsJSON();
+            JSONArray status_json = this.upload(correctionsJSON);
             Log.d(TAG, "status JSON: " + status_json.toString());
             uploadedCount = store.deleteByJsonArrayStatus(status_json);
-        } catch (JSONException jex) {
-            failureMessage = jex.getClass().getSimpleName() + ": " + jex.getMessage();
+        } catch (Exception e) {
+            failureMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
             Log.e(TAG, failureMessage);
             this.cancel(true);
         }
@@ -80,6 +78,13 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         Log.d(TAG, "onCancelled() fired");
         observer.uploadFailure(failureMessage);
         observer.uploadStop();
+    }
+
+    protected JSONObject createCorrectionsJSON() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("corrections", store.getAllAsJsonArray());
+        Log.d(TAG, "corrections JSON: " + json.toString());
+        return json;
     }
 
     // FIXME refactor
