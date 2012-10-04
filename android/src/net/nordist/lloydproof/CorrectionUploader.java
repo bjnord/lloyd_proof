@@ -1,7 +1,6 @@
 package net.nordist.lloydproof;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 import java.io.IOException;
@@ -30,17 +29,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private CorrectionUploadObserver observer;
     private int uploadedCount;
     private String failureMessage;
-    // FIXME RF context and resources aren't used outside of constructor
-    private Context context;
-    private Resources resources;
 
-    public CorrectionUploader(Context pContext, CorrectionUploadObserver pObserver) {
+    public CorrectionUploader(Context context, CorrectionUploadObserver pObserver) {
         super();
-        context = pContext;
         observer = pObserver;
         uploadedCount = 0;
         failureMessage = "";
-        resources = context.getResources();
         store = new CorrectionStorage(context);
     }
 
