@@ -54,7 +54,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            JSONObject correctionsJSON = this.createCorrectionsJSON();
+            String correctionsJSON = this.createCorrectionsJSON();
             JSONArray statusJSON = this.uploadCorrectionsJSON(correctionsJSON);
             Log.d(TAG, "status JSON: " + statusJSON.toString());
             uploadedCount = store.deleteByJsonArrayStatus(statusJSON);
@@ -80,18 +80,18 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         observer.uploadStop();
     }
 
-    protected JSONObject createCorrectionsJSON() throws JSONException {
+    protected String createCorrectionsJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("corrections", store.getAllAsJsonArray());
-        Log.d(TAG, "corrections JSON: " + json.toString());
-        return json;
+        String jsonString = json.toString();
+        Log.d(TAG, "corrections JSON: " + jsonString);
+        return jsonString;
     }
 
-    // FIXME make argument a String not JSONObject
     // FIXME refactor
-    protected JSONArray uploadCorrectionsJSON(JSONObject json)
+    protected JSONArray uploadCorrectionsJSON(String jsonString)
             throws UnsupportedEncodingException, IOException, JSONException {
-        HttpResponse httpResponse = this.sendCorrectionsHttpRequest(json);
+        HttpResponse httpResponse = this.sendCorrectionsHttpRequest(jsonString);
         JSONArray statusJSON = new JSONArray();
         StatusLine statusLine = httpResponse.getStatusLine();
         String statusString = "HTTP " + statusLine.getStatusCode() + " " +
@@ -108,11 +108,11 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         return statusJSON;
     }
 
-    protected HttpResponse sendCorrectionsHttpRequest(JSONObject json)
+    protected HttpResponse sendCorrectionsHttpRequest(String jsonString)
             throws UnsupportedEncodingException, IOException {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpRequest = new HttpPost(BASE_URL + "corrections/sync.json");
-        StringEntity entity = new StringEntity(json.toString(), HTTP.UTF_8);
+        StringEntity entity = new StringEntity(jsonString, HTTP.UTF_8);
         entity.setContentType("application/json");
         httpRequest.setEntity(entity);
         return httpClient.execute(httpRequest);
