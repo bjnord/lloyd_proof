@@ -1,36 +1,40 @@
 = LloydProof
 
-LloydProof is a system for tracking errors discovered while proofreading.
-It includes a client app which captures errors found while reading, and
-uploads them to a server app which manages the list of needed corrections.
+LloydProof is a system for tracking errors discovered while proofreading. The client app captures errors found while reading, and uploads them to the server app which manages the list of needed corrections.
 
-LloydProof is in very early development; it's currently at the "simplest
-thing that could possibly work" stage.
+LloydProof is in very early development; it's currently at the "simplest thing that could possibly work" stage.
 
 == Installation
 
-The server is written in Ruby on Rails. It can be installed on a host with
-Ruby 1.9 in the usual way; at this stage, there's nothing to configure
-except the database:
+The server is written in Ruby on Rails. It can be installed on a host with Ruby 1.9 in the usual way; at this stage, there's nothing to configure except the database:
 
   $ bundle install
   [edit config/database.yml]
   $ rake db:schema:load
   $ rails server
 
-The Android client is currently targeted at API level 14 (Android 4.0) and
-above. If you have the Android SDK and tools installed, you can build it
-as follows:
+Accessing +/corrections+ on the server will show the corrections uploaded so far (initially blank).
 
-  [edit android/src/net/nordist/lloydproof/CorrectionUploader.java to set server base URL]
+The Android client is currently targeted at API level 14 (Android 4.0 "Ice Cream Sandwich") and above. If you have the Android SDK and tools installed, you can build it as follows:
+
+  $ cd android
+  [edit src/net/nordist/lloydproof/CorrectionUploader.java to set server base URL]
   $ ant [ debug | release ]
+
+Then install the +.apk+ file from +android/bin+ onto your Android device.
 
 == Future Goals
 
+* Android "Share via" so corrections can be sent directly from the reading app without a copy-paste step
 * Users, authentication, and authorization
 * Projects (grouping corrections by works being proofread)
-* Managing the complete correction lifecycle
+* Android 2.3.3 "Gingerbread MR1" (API level 10)
+* Full correction lifecycle management
 * Browser-based client app (_e.g._ Google Chrome plugin)
+
+== Feedback
+
+I've created this project, in part, to train myself in good coding practices I have been learning recently. *Any* feedback is welcome! Please feel free to contact me at {lloydproof@nordist.net}[mailto:lloydproof@nordist.net], or add bugs or suggested features to the {GitHub issue tracker}[https://github.com/bjnord/lloydproof/issues] if they aren't there already.
 
 == License
 
