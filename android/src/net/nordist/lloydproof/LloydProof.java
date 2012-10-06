@@ -75,8 +75,12 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void uploadCorrections(View view) {
-        uploader = new CorrectionUploader(this, this);
-        uploader.execute();
+        if (store.count() > 0) {
+            uploader = new CorrectionUploader(this, this);
+            uploader.execute();
+        } else {
+            Log.d(TAG, "no corrections to upload");
+        }
     }
 
     private void showStatus(String message) {
