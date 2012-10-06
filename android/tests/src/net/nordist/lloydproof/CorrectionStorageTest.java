@@ -21,13 +21,13 @@ public class CorrectionStorageTest extends AndroidTestCase
         store.deleteAll();
     }
 
-    public void testSave() {
+    public void testSaveAndDelete() {
         // test save():
         int id = store.save("XYZZY");
         Assert.assertTrue(id > 0);
         Assert.assertEquals(1, store.count());
-        // clean up:
-        store.deleteAll();  // FIXME delete by id & assert empty
+        // test delete():
+        Assert.assertEquals(1, store.deleteById(id));
         Assert.assertEquals(0, store.count());
     }
 

@@ -69,6 +69,16 @@ public class CorrectionStorage extends SQLiteOpenHelper
         Log.d(TAG, "deleted all rows");
     }
 
+    public int deleteById(int id) {
+        openWriteDB();
+        String idString = Integer.toString(id);
+        int deletedCount = writeDB.delete(TABLE_NAME, "id=?", new String[] {idString});
+        Log.d(TAG, "deleted id=" + idString);
+        return deletedCount;
+    }
+
+    // FIXME refactor toString-delete-Log out of ^that and vthat
+
     public int deleteByIdList(List<Integer> idList) {
         openWriteDB();
         int deletedCount = 0;
