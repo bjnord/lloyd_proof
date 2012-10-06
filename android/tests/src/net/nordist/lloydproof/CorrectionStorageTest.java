@@ -33,19 +33,22 @@ public class CorrectionStorageTest extends AndroidTestCase
 
     public void testDeleteByIdArray() {
         List<Integer> idsToDelete = new ArrayList<Integer>();
-        // save some corrections:
+        // save some corrections, including one NOT to delete:
         final int nDelete = 3;
         idsToDelete.add(store.save("PLUGH"));
+        final int keepId = store.save("PLOVER");
         idsToDelete.add(store.save("Y2"));
         idsToDelete.add(store.save("Frobozz"));
-        // FIXME save one not on the delete list too
         Iterator<Integer> i = idsToDelete.iterator();
         while (i.hasNext()) {
             Assert.assertTrue(i.next().intValue() > 0);
         }
-        Assert.assertEquals(nDelete, store.count());
-        // delete the just-added corrections:
+        Assert.assertEquals(nDelete + 1, store.count());
+        // test deleteByIdArray():
         Assert.assertEquals(nDelete, store.deleteByIdList(idsToDelete));
+        Assert.assertEquals(1, store.count());
+        // clean up:
+        Assert.assertEquals(1, store.deleteById(keepId));
         Assert.assertEquals(0, store.count());
     }
 }
