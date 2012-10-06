@@ -84,11 +84,9 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         }
         int id = store.save(currentText);
         if (id > 0) {
-            Log.d(TAG, "saved correction as id=" + id);
             editText.setText("", TextView.BufferType.EDITABLE);
             showStatus(getString(R.string.correction_saved));
         } else {
-            Log.e(TAG, "error saving correction");
             showStatus(getString(R.string.correction_save_error));
         }
         updateUploadStatus();

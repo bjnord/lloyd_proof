@@ -48,7 +48,13 @@ public class CorrectionStorage extends SQLiteOpenHelper
         ContentValues values = new ContentValues();
         values.put("current_text", currentText);
         openWriteDB();
-        return (int)writeDB.insert(TABLE_NAME, null, values);
+        int savedId = (int)writeDB.insert(TABLE_NAME, null, values);
+        if (savedId > 0) {
+            Log.d(TAG, "saved correction as id=" + savedId);
+        } else {
+            Log.e(TAG, "error saving correction");
+        }
+        return savedId;
     }
 
     public int count() {
@@ -73,7 +79,11 @@ public class CorrectionStorage extends SQLiteOpenHelper
         openWriteDB();
         String idString = Integer.toString(id);
         int deletedCount = writeDB.delete(TABLE_NAME, "id=?", new String[] {idString});
-        Log.d(TAG, "deleted id=" + idString);
+        if (deletedCount > 0) {
+            Log.d(TAG, "deleted correction with id=" + idString);
+        } else {
+            Log.e(TAG, "error deleting correction");
+        }
         return deletedCount;
     }
 
