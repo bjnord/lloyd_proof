@@ -1,3 +1,6 @@
+# Copyright © 2012 by Brent J. Nordquist. Some Rights Reserved.
+# This work is licensed under http://creativecommons.org/licenses/by-sa/3.0/
+
 require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'

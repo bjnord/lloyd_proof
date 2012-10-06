@@ -36,7 +36,9 @@ Then install the +.apk+ file from +android/bin+ onto your Android device.
 
 I've created this project, in part, to train myself in good coding practices I have been learning recently. *Any* feedback is welcome! Please feel free to contact me at {lloydproof@nordist.net}[mailto:lloydproof@nordist.net], or add bugs or suggested features to the {GitHub issue tracker}[https://github.com/bjnord/lloyd_proof/issues] if they aren't there already.
 
-== License
+== Copyright and License
+
+Copyright © 2012 by Brent J. Nordquist. Some Rights Reserved.
 
 This work is licensed under a {Creative Commons Attribution-ShareAlike 3.0 Unported License}[http://creativecommons.org/licenses/by-sa/3.0/deed.en_US].
 

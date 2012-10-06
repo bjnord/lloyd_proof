@@ -1,3 +1,6 @@
+# Copyright © 2012 by Brent J. Nordquist. Some Rights Reserved.
+# This work is licensed under http://creativecommons.org/licenses/by-sa/3.0/
+
 require 'spec_helper'
 
 describe CorrectionsController do

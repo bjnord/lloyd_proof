@@ -1,3 +1,6 @@
+# Copyright © 2012 by Brent J. Nordquist. Some Rights Reserved.
+# This work is licensed under http://creativecommons.org/licenses/by-sa/3.0/
+
 # Some of these tools are old and a bit fragile; due to ruby_parser
 # and sexp_processor issues, Ruby gets hung if they're run as classes.
 # Thus, these tasks are set up to run these tools from the command line.
@@ -7,8 +10,6 @@ task :quality => ["quality:best_practices", "quality:flog", "quality:flay", "qua
 
 namespace :quality do
   # TODO the first time we add an app/helper, add it to this list,
-  # but DON'T include the scaffold ones (brings down score)... so
-  # write some code to get the names and exclude the scaffold ones
   # TODO add spec/**/*.rb also
   code_files = "app/[cmu]*/*.rb"
 
