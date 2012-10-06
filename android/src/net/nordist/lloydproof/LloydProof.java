@@ -59,17 +59,20 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.about_app_name);
-        // FIXME RF: split out "LinearLayout createDialogView()"
-        LinearLayout dialogView = (LinearLayout)getLayoutInflater().inflate(R.layout.about, null);
-        TextView appVersion = (TextView)dialogView.findViewById(R.id.about_app_version);
-        appVersion.setText(getString(R.string.app_version, appVersionName));
-        builder.setView(dialogView);
+        builder.setView(createDialogView());
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
         });
         return builder.create();
+    }
+
+    private LinearLayout createDialogView() {
+        LinearLayout dialogView = (LinearLayout)getLayoutInflater().inflate(R.layout.about, null);
+        TextView appVersion = (TextView)dialogView.findViewById(R.id.about_app_version);
+        appVersion.setText(getString(R.string.app_version, appVersionName));
+        return dialogView;
     }
 
     public void saveCorrection(View view) {
