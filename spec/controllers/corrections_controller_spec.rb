@@ -51,6 +51,19 @@ describe CorrectionsController do
         end
       end
     end
+
+    it 'selectively rejects mass assignment attempts' do
+      @corrections[2]['updated_at'] = 'dawn'
+      bad_sync_id = @corrections[2]['sync_id']
+      post :sync, :corrections => @corrections, :format => :json
+      JSON.parse(response.body).each do |status|
+        if status['sync_id'] == bad_sync_id
+          status['status'].should == 'error'
+        else
+          status['status'].should == 'ok'
+        end
+      end
+    end
   end
 
 end
