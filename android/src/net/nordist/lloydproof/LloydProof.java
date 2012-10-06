@@ -94,7 +94,6 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     private String pluralCorrectionCount(int count) {
-        // FIXME do this with %s so l10n can change the word order too
         return getResources().getQuantityString(R.plurals.corrections, count, count);
     }
 
@@ -104,7 +103,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     public void uploadSuccess(int count) {
         Log.d(TAG, "uploadSuccess(" + count + ")");
-        showStatus(getString(R.string.uploaded) + " " + pluralCorrectionCount(count) + ".");
+        showStatus(getString(R.string.uploaded_n_corrections, pluralCorrectionCount(count)));
         updateUploadStatus();
     }
 
