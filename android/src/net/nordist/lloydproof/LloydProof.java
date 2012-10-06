@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +26,24 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
 
     private CorrectionStorage store;
     private CorrectionUploader uploader;
+    private String appVersionName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         store = new CorrectionStorage(this);
+        initializePackageInfo();
         setContentView(R.layout.main);
         updateUploadStatus();
+    }
+
+    private void initializePackageInfo() {
+        try {
+            PackageInfo packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+            appVersionName = packageInfo.versionName;
+        } catch (NameNotFoundException e) {
+            appVersionName = "?";
+        }
     }
 
     @Override
@@ -45,8 +59,11 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.about_app_name);
-        // FIXME set app version with %s; ditch app_name_and_version string
-        builder.setView(getLayoutInflater().inflate(R.layout.about, null));
+        // FIXME RF: split out "LinearLayout createDialogView()"
+        LinearLayout dialogView = (LinearLayout)getLayoutInflater().inflate(R.layout.about, null);
+        TextView appVersion = (TextView)dialogView.findViewById(R.id.about_app_version);
+        appVersion.setText(getString(R.string.app_version, appVersionName));
+        builder.setView(dialogView);
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();

@@ -3,7 +3,7 @@
     <string name="app_name">LloydProof</string>
     <string name="about">About</string>
     <string name="about_app_name">About LloydProof</string>
-    <string name="app_version">Version 0.0</string>
+    <string name="app_version">Version %s</string>
     <string name="app_url">https://github.com/bjnord/lloyd_proof</string>
     <string name="copyright_year">Copyright © 2012</string>
     <string name="copyright_author">by Brent J. Nordquist</string>
