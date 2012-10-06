@@ -47,7 +47,7 @@ public class LloydProofTest extends ActivityInstrumentationTestCase2<LloydProof>
         activity.runOnUiThread(
             new Runnable() {
                 public void run() {
-                  editText.requestFocus();
+                    editText.requestFocus();
                 }
             }
         );
