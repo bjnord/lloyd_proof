@@ -42,7 +42,6 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     @Override
     protected void onPreExecute() {
-        Log.d(TAG, "onPreExecute() fired");
         observer.uploadStart();
     }
 
@@ -62,14 +61,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     @Override
     protected void onPostExecute(Void result) {
-        Log.d(TAG, "onPostExecute() fired");
         observer.uploadSuccess(uploadedCount);
         observer.uploadStop();
     }
 
     @Override
     protected void onCancelled(Void result) {
-        Log.d(TAG, "onCancelled() fired");
         observer.uploadFailure(failureMessage);
         observer.uploadStop();
     }
