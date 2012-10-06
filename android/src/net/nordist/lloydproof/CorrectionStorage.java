@@ -63,6 +63,12 @@ public class CorrectionStorage extends SQLiteOpenHelper
         }
     }
 
+    public void deleteAll() {
+        openWriteDB();
+        writeDB.delete(TABLE_NAME, null, null);
+        Log.d(TAG, "deleted all rows");
+    }
+
     public int deleteByIdList(List<Integer> idList) {
         openWriteDB();
         int deletedCount = 0;

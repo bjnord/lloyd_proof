@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import junit.framework.Assert;
 
+/*
+ * NB: setUp() deletes all stored corrections; each test is expected
+ * to clean up after itself and leave the storage empty again when done
+ * (to avoid failures from indeterminate test order).
+ */
 public class CorrectionStorageTest extends AndroidTestCase
 {
     private CorrectionStorage store;
@@ -13,30 +18,34 @@ public class CorrectionStorageTest extends AndroidTestCase
     @Override
     protected void setUp() {
         store = new CorrectionStorage(getContext());
+        store.deleteAll();
     }
 
     public void testSave() {
-        int startCount = store.count();
+        // test save():
         int id = store.save("XYZZY");
         Assert.assertTrue(id > 0);
-        Assert.assertEquals(startCount + 1, store.count());
+        Assert.assertEquals(1, store.count());
+        // clean up:
+        store.deleteAll();  // FIXME delete by id & assert empty
+        Assert.assertEquals(0, store.count());
     }
 
     public void testDeleteByIdArray() {
-        int startCount = store.count();
         List<Integer> idsToDelete = new ArrayList<Integer>();
         // save some corrections:
         final int nDelete = 3;
         idsToDelete.add(store.save("PLUGH"));
         idsToDelete.add(store.save("Y2"));
         idsToDelete.add(store.save("Frobozz"));
+        // FIXME save one not on the delete list too
         Iterator<Integer> i = idsToDelete.iterator();
         while (i.hasNext()) {
             Assert.assertTrue(i.next().intValue() > 0);
         }
-        Assert.assertEquals(startCount + nDelete, store.count());
+        Assert.assertEquals(nDelete, store.count());
         // delete the just-added corrections:
         Assert.assertEquals(nDelete, store.deleteByIdList(idsToDelete));
-        Assert.assertEquals(startCount, store.count());
+        Assert.assertEquals(0, store.count());
     }
 }
