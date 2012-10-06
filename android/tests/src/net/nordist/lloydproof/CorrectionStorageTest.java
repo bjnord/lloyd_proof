@@ -26,7 +26,7 @@ public class CorrectionStorageTest extends AndroidTestCase
         int id = store.save("XYZZY");
         Assert.assertTrue(id > 0);
         Assert.assertEquals(1, store.count());
-        // test delete():
+        // test deleteById():
         Assert.assertEquals(1, store.deleteById(id));
         Assert.assertEquals(0, store.count());
     }
