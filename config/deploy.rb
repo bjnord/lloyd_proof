@@ -2,7 +2,7 @@ require "bundler/capistrano"
 
 set :application, "lloyd_proof"
 
-set :repository, "git.nordist.net:/export/git/lloyd_proof.git"
+set :repository, "http://github.com/bjnord/lloyd_proof.git"
 set :scm, :git
 
 server "git.nordist.net", :app, :web, :db, :primary => true
