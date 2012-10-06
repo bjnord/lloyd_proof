@@ -34,7 +34,7 @@ Then install the +.apk+ file from +android/bin+ onto your Android device.
 
 == Feedback
 
-I've created this project, in part, to train myself in good coding practices I have been learning recently. *Any* feedback is welcome! Please feel free to contact me at {lloydproof@nordist.net}[mailto:lloydproof@nordist.net], or add bugs or suggested features to the {GitHub issue tracker}[https://github.com/bjnord/lloydproof/issues] if they aren't there already.
+I've created this project, in part, to train myself in good coding practices I have been learning recently. *Any* feedback is welcome! Please feel free to contact me at {lloydproof@nordist.net}[mailto:lloydproof@nordist.net], or add bugs or suggested features to the {GitHub issue tracker}[https://github.com/bjnord/lloyd_proof/issues] if they aren't there already.
 
 == License
 
