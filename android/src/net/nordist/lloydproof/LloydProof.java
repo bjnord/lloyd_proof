@@ -111,9 +111,9 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
         int count = store.count();
         if (count > 0) {
-            uploadStatus.setText(pluralCorrectionCount(count) + " " + getString(R.string.to_upload));
+            uploadStatus.setText(getString(R.string.n_corrections_to_upload, pluralCorrectionCount(count)));
         } else {
-            uploadStatus.setText(getString(R.string.all_uploaded));
+            uploadStatus.setText(getString(R.string.all_corrections_uploaded));
         }
     }
 
