@@ -5,9 +5,8 @@
 class SourceAnnotationExtractor
   alias orig_find find
 
-  def find(dirs=%w(app lib test))
+  def find(dirs=%w(app config lib script test))
     # additional directories we want scanned
-    dirs << "config"
     dirs << "spec"
     orig_find(dirs)
   end
