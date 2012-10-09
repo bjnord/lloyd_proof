@@ -7,10 +7,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +34,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         store = new CorrectionStorage(this);
         initializePackageInfo();
         setContentView(R.layout.main);
@@ -141,7 +144,8 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void settings(MenuItem item) {
-        Log.d(TAG, "settings() fired");
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     public void about(MenuItem item) {
