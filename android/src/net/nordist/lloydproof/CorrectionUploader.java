@@ -28,10 +28,10 @@ import org.json.JSONObject;
 public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 {
     private static final String TAG = "CorrectionUploader";
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
 
     private CorrectionStorage store;
     private CorrectionUploadObserver observer;
+    private Settings settings;
     private int uploadedCount;
     private String failureMessage;
 
@@ -39,6 +39,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
         super();
         this.observer = observer;
         store = new CorrectionStorage(context);
+        settings = new Settings(context);
     }
 
     @Override
@@ -92,7 +93,8 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     protected HttpResponse sendCorrectionsHttpRequest(String jsonString)
             throws UnsupportedEncodingException, IOException {
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpRequest = new HttpPost(BASE_URL + "corrections/sync.json");
+        HttpPost httpRequest = new HttpPost(settings.getString(Settings.SERVER_URL)
+            + "corrections/sync.json");
         StringEntity entity = new StringEntity(jsonString, HTTP.UTF_8);
         entity.setContentType("application/json");
         httpRequest.setEntity(entity);
