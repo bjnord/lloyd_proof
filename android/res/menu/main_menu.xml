@@ -3,6 +3,11 @@
 <!-- This work is licensed under http://creativecommons.org/licenses/by-sa/3.0/ -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/settings"
+        android:icon="@drawable/ic_menu_preferences"
+        android:title="@string/settings"
+        android:onClick="settings"
+        android:showAsAction="ifRoom" />
     <item android:id="@+id/about"
         android:icon="@drawable/ic_menu_info_details"
         android:title="@string/about"

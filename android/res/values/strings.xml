@@ -4,6 +4,7 @@
 
 <resources>
     <string name="app_name">LloydProof</string>
+    <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="about_app_name">About LloydProof</string>
     <string name="app_version">Version %s</string>

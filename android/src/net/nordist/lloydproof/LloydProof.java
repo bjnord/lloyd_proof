@@ -140,6 +140,10 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         findViewById(R.id.upload_button).setEnabled(true);
     }
 
+    public void settings(MenuItem item) {
+        Log.d(TAG, "settings() fired");
+    }
+
     public void about(MenuItem item) {
         showDialog(DIALOG_ABOUT);
     }
