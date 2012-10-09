@@ -1,4 +1,4 @@
-= LloydProof
+= LloydProof {<img src="https://codeclimate.com/badge.png" />}[https://codeclimate.com/github/bjnord/lloyd_proof]
 
 LloydProof is a system for tracking errors discovered while proofreading. The client app captures errors found while reading, and uploads them to the server app which manages the list of needed corrections.
 
