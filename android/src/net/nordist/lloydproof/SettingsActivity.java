@@ -17,11 +17,13 @@ public class SettingsActivity extends PreferenceActivity
     private static final String TAG = "SettingsActivity";
     private static final String KEY_SERVER_URL = "pref_server_url";
 
+    private SharedPreferences defaultSharedPreferences;
     private SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         settingsFragment = new SettingsFragment();
         getFragmentManager().beginTransaction()
             .replace(android.R.id.content, settingsFragment).commit();
@@ -31,29 +33,25 @@ public class SettingsActivity extends PreferenceActivity
     protected void onResume() {
         super.onResume();
         initializeSummaries();
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .registerOnSharedPreferenceChangeListener(this);
+        defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .unregisterOnSharedPreferenceChangeListener(this);
+        defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void initializeSummaries() {
-        SharedPreferences defaultSharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(this);
-        String value = defaultSharedPreferences.getString(KEY_SERVER_URL, "");
-        settingsFragment.findPreference(KEY_SERVER_URL).setSummary(value);
+        String serverURL = defaultSharedPreferences.getString(KEY_SERVER_URL, "");
+        settingsFragment.findPreference(KEY_SERVER_URL).setSummary(serverURL);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(KEY_SERVER_URL)) {
-            String newValue = sharedPreferences.getString(key, "");
-            Log.d(TAG, "new " + key + " = " + newValue);
-            settingsFragment.findPreference(key).setSummary(newValue);
+            String serverURL = sharedPreferences.getString(key, "");
+            Log.d(TAG, "new " + key + " = " + serverURL);
+            settingsFragment.findPreference(key).setSummary(serverURL);
         }
     }
 }
