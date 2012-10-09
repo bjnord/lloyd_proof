@@ -18,11 +18,10 @@ import org.json.JSONObject;
 
 public class CorrectionStorage extends SQLiteOpenHelper
 {
+    private static final String TAG = "CorrectionStorage";
     private static final String TABLE_NAME = "corrections";
     private static final String DATABASE_NAME = "corrections.db";
     private static final int DATABASE_VERSION = 1;
-
-    private final String TAG = getClass().getSimpleName();
 
     private SQLiteDatabase writeDB;
     private SQLiteDatabase readDB;
