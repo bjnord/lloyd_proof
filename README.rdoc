@@ -20,7 +20,7 @@ The Android client is currently targeted at API level 14 (Android 4.0 "Ice Cream
   $ cd android
   $ ant [ debug | release ]
 
-Then install the +.apk+ file from +android/bin+ onto your Android device. (By default the Android client uses the server at \http://10.0.2.2:3000/ which works for a localhost Rails server and the Android emulator. You can change the server URL in the client settings.)
+Then install the +.apk+ file from +android/bin+ onto your Android device. (By default the Android client uses the server at 10.0.2.2:3000 which works for a localhost Rails server and the Android emulator. You can change the server URL in the client settings.)
 
 == Future Goals
 
