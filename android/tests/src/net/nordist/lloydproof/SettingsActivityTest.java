@@ -17,6 +17,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 {
     private static final String TAG = "SettingsActivityTest";
     private SettingsActivity activity;
+    private Settings settings;
     private KeyguardLock keyguardLock;
 
     public SettingsActivityTest() {
@@ -27,6 +28,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     public void setUp() throws Exception {
         super.setUp();
         activity = getActivity();
+        settings = new Settings(activity);
         KeyguardManager keyGuardManager = (KeyguardManager)activity.getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE);
         keyguardLock = keyGuardManager.newKeyguardLock("SettingsActivity");
         keyguardLock.disableKeyguard();
@@ -75,6 +77,6 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
             }
         );
         settleWait();
-        assertEquals("http.//127.0.0.1/", serverURLPreference.getText());
+        assertEquals("http.//127.0.0.1/", settings.getString(Settings.SERVER_URL));
     }
 }
