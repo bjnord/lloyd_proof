@@ -3,7 +3,8 @@
 
 package net.nordist.lloydproof;
 
-public interface CorrectionUploadObserver {
+public interface CorrectionUploadObserver
+{
     void uploadStart();
     void uploadSuccess(int count);
     void uploadFailure(String message);
