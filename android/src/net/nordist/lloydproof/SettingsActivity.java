@@ -44,14 +44,18 @@ public class SettingsActivity extends PreferenceActivity
 
     private void initializeSummaries() {
         String serverURL = defaultSharedPreferences.getString(KEY_SERVER_URL, "");
-        settingsFragment.findPreference(KEY_SERVER_URL).setSummary(serverURL);
+        findPreference(KEY_SERVER_URL).setSummary(serverURL);
+    }
+
+    public Preference findPreference(CharSequence key) {
+        return settingsFragment.findPreference(key);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(KEY_SERVER_URL)) {
             String serverURL = sharedPreferences.getString(key, "");
             Log.d(TAG, "new " + key + " = " + serverURL);
-            settingsFragment.findPreference(key).setSummary(serverURL);
+            findPreference(key).setSummary(serverURL);
         }
     }
 }
