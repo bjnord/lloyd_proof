@@ -26,6 +26,11 @@ public class SettingsFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.preferences);
     }
 
+    public void updateSummaries() {
+        // FIXME use getAll() and iterate
+        updateSummary(sharedPreferences, Settings.SERVER_URL);
+    }
+
     // NOTE this only supports String/EditText preferences (all we have, currently)
     public void updateSummary(SharedPreferences sharedPreferences, String key) {
         String value = sharedPreferences.getString(key, "");

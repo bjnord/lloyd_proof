@@ -30,7 +30,7 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
-        initializeSummaries();
+        settingsFragment.updateSummaries();
         defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -38,11 +38,6 @@ public class SettingsActivity extends PreferenceActivity
     protected void onPause() {
         super.onPause();
         defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    private void initializeSummaries() {
-        String serverURL = defaultSharedPreferences.getString(Settings.SERVER_URL, "");
-        settingsFragment.findPreference(Settings.SERVER_URL).setSummary(serverURL);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
