@@ -14,7 +14,6 @@ public class SettingsActivity extends PreferenceActivity
     implements OnSharedPreferenceChangeListener
 {
     private static final String TAG = "SettingsActivity";
-    private static final String KEY_SERVER_URL = "pref_server_url";
 
     private SharedPreferences defaultSharedPreferences;
     private SettingsFragment settingsFragment;
@@ -42,12 +41,12 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     private void initializeSummaries() {
-        String serverURL = defaultSharedPreferences.getString(KEY_SERVER_URL, "");
-        settingsFragment.findPreference(KEY_SERVER_URL).setSummary(serverURL);
+        String serverURL = defaultSharedPreferences.getString(Settings.SERVER_URL, "");
+        settingsFragment.findPreference(Settings.SERVER_URL).setSummary(serverURL);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(KEY_SERVER_URL)) {
+        if (key.equals(Settings.SERVER_URL)) {
             String serverURL = sharedPreferences.getString(key, "");
             Log.d(TAG, "new " + key + " = " + serverURL);
             settingsFragment.findPreference(key).setSummary(serverURL);
