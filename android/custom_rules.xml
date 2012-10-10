@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="LloydProofCustom" default="help">
 
+    <!--  ==========  PMD  ==========  -->
+
     <path id="pmd.classpath">
         <fileset dir="${pmd.dir}">
             <include name="*.jar"/>
@@ -38,6 +40,30 @@
                 <include name="net/nordist/lloydproof/*.java"/>
             </fileset>
         </pmd>
+    </target>
+
+    <!--  ==========  FindBugs  ==========  -->
+
+    <property name="src-dir" value="src" />
+    <property name="bin-dir" value="bin" />
+    <property name="android-jar" value="${sdk.dir}/platforms/android-15/android.jar" />
+    <property name="findbugs-report" value="quality/findbugs_report.html" />
+    <property name="package-to-analyse" value="net.nordist.lloydproof.*" />
+
+    <path id="findbugs.dir.jars">
+        <fileset dir="${findbugs.home}/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.dir.jars"/>
+
+    <target name="findbugs">
+        <findbugs home="${findbugs.home}" output="html" outputFile="${findbugs-report}" onlyAnalyze="${package-to-analyse}">
+            <sourcePath path="${src-dir}" />
+            <class location="${bin-dir}" />
+            <auxClasspath path="${android-jar}" />
+        </findbugs>
     </target>
 
 </project>
