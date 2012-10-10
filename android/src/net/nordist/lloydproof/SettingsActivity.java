@@ -15,13 +15,11 @@ public class SettingsActivity extends PreferenceActivity
 {
     private static final String TAG = "SettingsActivity";
 
-    private SharedPreferences defaultSharedPreferences;
     private SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         settingsFragment = new SettingsFragment(this);
         getFragmentManager().beginTransaction()
             .replace(android.R.id.content, settingsFragment).commit();
@@ -31,13 +29,13 @@ public class SettingsActivity extends PreferenceActivity
     protected void onResume() {
         super.onResume();
         settingsFragment.updateSummaries();
-        defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        settingsFragment.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        settingsFragment.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

@@ -5,6 +5,7 @@ package net.nordist.lloydproof;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceFragment;
@@ -36,5 +37,13 @@ public class SettingsFragment extends PreferenceFragment
         String value = sharedPreferences.getString(key, "");
         Log.d(TAG, "new " + key + " = " + value);
         findPreference(key).setSummary(value);
+    }
+
+    void registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 }
