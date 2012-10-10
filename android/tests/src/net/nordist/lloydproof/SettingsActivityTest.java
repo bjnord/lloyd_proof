@@ -48,7 +48,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 
     public void testChangingServerURL() {
         // FIXME use class constant for "pref_server_url"
-        final EditTextPreference serverURLPreference = (EditTextPreference)activity.findPreference("pref_server_url");
+        final EditTextPreference serverURLPreference = (EditTextPreference)activity.getSettingsFragment().findPreference("pref_server_url");
         assertNotNull(serverURLPreference);
         activity.runOnUiThread(
             new Runnable() {
@@ -56,7 +56,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
                     // click "Server URL" to bring up the dialog
                     // FIXME magic constant 0 won't work when we have more than 1
                     final int SERVER_URL_POSITION = 0;
-                    activity.getPreferenceScreen().onItemClick(null, null, SERVER_URL_POSITION, 0);
+                    activity.getSettingsFragment().getPreferenceScreen().onItemClick(null, null, SERVER_URL_POSITION, 0);
                     // focus EditText box
                     final EditText serverURL = serverURLPreference.getEditText();
                     assertNotNull(serverURL);

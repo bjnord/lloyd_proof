@@ -6,10 +6,8 @@ package net.nordist.lloydproof;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.util.Log;
 
 public class SettingsActivity extends PreferenceActivity
@@ -45,22 +43,19 @@ public class SettingsActivity extends PreferenceActivity
 
     private void initializeSummaries() {
         String serverURL = defaultSharedPreferences.getString(KEY_SERVER_URL, "");
-        findPreference(KEY_SERVER_URL).setSummary(serverURL);
-    }
-
-    public PreferenceScreen getPreferenceScreen() {
-        return settingsFragment.getPreferenceScreen();
-    }
-
-    public Preference findPreference(CharSequence key) {
-        return settingsFragment.findPreference(key);
+        settingsFragment.findPreference(KEY_SERVER_URL).setSummary(serverURL);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(KEY_SERVER_URL)) {
             String serverURL = sharedPreferences.getString(key, "");
             Log.d(TAG, "new " + key + " = " + serverURL);
-            findPreference(key).setSummary(serverURL);
+            settingsFragment.findPreference(key).setSummary(serverURL);
         }
+    }
+
+    // TODO find a way to privatize this; only needed by test
+    public SettingsFragment getSettingsFragment() {
+        return settingsFragment;
     }
 }
