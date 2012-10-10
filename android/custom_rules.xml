@@ -11,9 +11,17 @@
         <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask"
                 classpathref="pmd.classpath"/>
         <pmd shortFilenames="true">
-            <ruleset>rulesets/java/design.xml</ruleset>
+            <ruleset>java-android</ruleset>
             <ruleset>java-basic</ruleset>
+            <ruleset>java-braces</ruleset>
+            <ruleset>java-codesize</ruleset>
+            <ruleset>java-comments</ruleset>
+            <!-- ruleset>java-coupling</ruleset -->
+            <ruleset>java-empty</ruleset>
+            <ruleset>java-finalizers</ruleset>
             <ruleset>java-imports</ruleset>
+            <!-- TODO add more rulesets from "Java Logging" down -->
+            <!-- on http://pmd.sourceforge.net/rules/index.html -->
             <formatter type="html" toFile="quality/pmd_report.html"/>
             <fileset dir="src/">
                 <include name="net/nordist/lloydproof/*.java"/>
