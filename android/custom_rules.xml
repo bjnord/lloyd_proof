@@ -20,10 +20,21 @@
             <ruleset>java-empty</ruleset>
             <ruleset>java-finalizers</ruleset>
             <ruleset>java-imports</ruleset>
-            <!-- TODO add more rulesets from "Java Logging" down -->
-            <!-- on http://pmd.sourceforge.net/rules/index.html -->
+            <ruleset>java-junit</ruleset>
+            <ruleset>java-logging-java</ruleset>
+            <!-- TODO reenable java-naming with exception for loop "i" -->
+            <!-- ruleset>java-naming</ruleset -->
+            <ruleset>java-optimizations</ruleset>
+            <ruleset>java-strictexception</ruleset>
+            <ruleset>java-strings</ruleset>
+            <ruleset>java-typeresolution</ruleset>
+            <ruleset>java-unnecessary</ruleset>
+            <ruleset>java-unusedcode</ruleset>
             <formatter type="html" toFile="quality/pmd_report.html"/>
             <fileset dir="src/">
+                <include name="net/nordist/lloydproof/*.java"/>
+            </fileset>
+            <fileset dir="tests/src/">
                 <include name="net/nordist/lloydproof/*.java"/>
             </fileset>
         </pmd>
