@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LloydProofCustom" default="help">
+
+    <path id="pmd.classpath">
+        <fileset dir="${pmd.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="pmd">
+        <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask"
+                classpathref="pmd.classpath"/>
+        <pmd shortFilenames="true">
+            <ruleset>rulesets/java/design.xml</ruleset>
+            <ruleset>java-basic</ruleset>
+            <ruleset>java-imports</ruleset>
+            <formatter type="html" toFile="quality/pmd_report.html"/>
+            <fileset dir="src/">
+                <include name="net/nordist/lloydproof/*.java"/>
+            </fileset>
+        </pmd>
+    </target>
+
+</project>

@@ -32,5 +32,6 @@
 android/bin/
 android/gen/
 android/local.properties
+android/quality/
 android/tests/bin/
 android/tests/gen/
