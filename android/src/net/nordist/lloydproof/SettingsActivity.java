@@ -45,9 +45,9 @@ public class SettingsActivity extends PreferenceActivity
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return(true);
+                return true;
         }
-        return(super.onOptionsItemSelected(item));
+        return super.onOptionsItemSelected(item);
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
