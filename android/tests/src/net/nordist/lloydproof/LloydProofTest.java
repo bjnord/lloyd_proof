@@ -3,12 +3,10 @@
 
 package net.nordist.lloydproof;
 
-import android.app.Instrumentation;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 

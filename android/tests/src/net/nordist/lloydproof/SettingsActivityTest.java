@@ -4,18 +4,15 @@
 package net.nordist.lloydproof;
 
 import android.app.AlertDialog;
-import android.app.Instrumentation;
 import android.app.KeyguardManager.KeyguardLock;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.preference.EditTextPreference;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.widget.EditText;
 
 public class SettingsActivityTest extends ActivityInstrumentationTestCase2<SettingsActivity>
 {
-    private static final String TAG = "SettingsActivityTest";
     private SettingsActivity activity;
     private Settings settings;
     private KeyguardLock keyguardLock;
