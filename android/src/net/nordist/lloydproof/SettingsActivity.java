@@ -22,7 +22,7 @@ public class SettingsActivity extends PreferenceActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        settingsFragment = new SettingsFragment();
+        settingsFragment = new SettingsFragment(this);
         getFragmentManager().beginTransaction()
             .replace(android.R.id.content, settingsFragment).commit();
     }
@@ -46,11 +46,7 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(Settings.SERVER_URL)) {
-            String serverURL = sharedPreferences.getString(key, "");
-            Log.d(TAG, "new " + key + " = " + serverURL);
-            settingsFragment.findPreference(key).setSummary(serverURL);
-        }
+        settingsFragment.updateSummary(sharedPreferences, key);
     }
 
     // TODO find a way to privatize this; only needed by test
