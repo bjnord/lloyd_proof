@@ -28,8 +28,9 @@
 *.class
 *.dex
 
-# Android generated files
+# Android generated files, local property files
 android/bin/
 android/gen/
+android/local.properties
 android/tests/bin/
 android/tests/gen/
