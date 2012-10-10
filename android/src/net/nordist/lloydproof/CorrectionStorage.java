@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import org.json.JSONArray;

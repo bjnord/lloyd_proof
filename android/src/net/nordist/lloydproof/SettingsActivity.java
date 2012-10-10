@@ -7,15 +7,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity
     implements OnSharedPreferenceChangeListener
 {
-    private static final String TAG = "SettingsActivity";
-
     private SettingsFragment settingsFragment;
 
     @Override

@@ -5,14 +5,10 @@ package net.nordist.lloydproof;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class Settings
 {
-    private static final String TAG = "Settings";
-
     public static final String SERVER_URL = "pref_server_url";
 
     private SharedPreferences sharedPreferences;
