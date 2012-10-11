@@ -22,6 +22,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     }
 
     @Override
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException")  // it's super's fault
     public void setUp() throws Exception {
         super.setUp();
         activity = getActivity();
@@ -39,7 +40,8 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         getInstrumentation().waitForIdleSync();
         try {
             Thread.sleep(500);
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            // nothing meaningful we can do
         }
     }
 
