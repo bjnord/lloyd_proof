@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset name="my-java-junit"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+    xsi:noNamespaceSchemaLocation="http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+  <rule ref="rulesets/java/junit.xml">
+    <!-- I prefer not to add messages to JUnit assertions (line # is fine) -->
+    <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+    <!-- this one is included below with changed properties -->
+    <exclude name="JUnitTestContainsTooManyAsserts"/>
+  </rule>
+  <rule ref="rulesets/java/junit.xml/JUnitTestContainsTooManyAsserts">
+    <properties>
+      <!-- not sure how many is too many, but "1" is definitely too few -->
+      <property name="maximumAsserts" value="3"/>
+    </properties>
+  </rule>
+</ruleset>
