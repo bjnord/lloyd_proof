@@ -5,13 +5,20 @@
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
     xsi:noNamespaceSchemaLocation="http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
   <rule ref="rulesets/java/naming.xml">
-    <!-- this one is included below with changed properties -->
+    <!-- these two are included below with changed properties -->
     <exclude name="ShortVariable"/>
+    <exclude name="LongVariable"/>
   </rule>
   <rule ref="rulesets/java/naming.xml/ShortVariable">
     <properties>
       <!-- allow "i" and "j" for loop indexes, iterators -->
       <property name="violationSuppressRegex" value=".*short names like [ij]$"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/java/naming.xml/LongVariable">
+    <properties>
+      <!-- lengthen allowable long names a bit -->
+      <property name="minimum" value="19"/>
     </properties>
   </rule>
 </ruleset>
