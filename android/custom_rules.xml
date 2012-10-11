@@ -15,7 +15,7 @@
         <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask"
                 classpathref="pmd.classpath"/>
         <pmd shortFilenames="true"
-                rulesetfiles="pmd-rulesets/my-java-optimizations.xml,pmd-rulesets/my-java-junit.xml">
+                rulesetfiles="pmd-rulesets/my-java-optimizations.xml,pmd-rulesets/my-java-junit.xml,pmd-rulesets/my-java-naming.xml">
             <formatter type="html" toFile="quality/pmd_my_report.html"/>
             <fileset dir="src/">
                 <include name="net/nordist/lloydproof/*.java"/>
@@ -36,8 +36,7 @@
             <ruleset>java-imports</ruleset>
             <!-- java-junit included in "custom" group, above -->
             <ruleset>java-logging-java</ruleset>
-            <!-- TODO reenable java-naming with exception for loop "i" -->
-            <!-- ruleset>java-naming</ruleset -->
+            <!-- java-naming included in "custom" group, above -->
             <!-- java-optimizations included in "custom" group, above -->
             <ruleset>java-strictexception</ruleset>
             <ruleset>java-strings</ruleset>
