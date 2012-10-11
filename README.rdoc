@@ -23,9 +23,10 @@ The Android client is currently targeted at API level 14 (Android 4.0 "Ice Cream
 
 Then install the +.apk+ file from +android/bin+ onto your Android device. (By default the Android client uses the server at 10.0.2.2:3000 which works for a localhost Rails server and the Android emulator. You can change the server URL in the client settings.)
 
+As you proofread, you can select text in the reading app, and then use Android's "Share via" to send the text directly to LloydProof without a copy-paste step.
+
 == Future Goals
 
-* Android "Share via" so corrections can be sent directly from the reading app without a copy-paste step
 * Users, authentication, and authorization
 * Projects (grouping corrections by works being proofread)
 * Android 2.3.3 "Gingerbread MR1" (API level 10)

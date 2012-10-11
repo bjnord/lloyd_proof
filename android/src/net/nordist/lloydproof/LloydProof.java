@@ -37,6 +37,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         store = new CorrectionStorage(this);
         initializePackageInfo();
         setContentView(R.layout.main);
+        handleReceivingSentText(getIntent());
     }
 
     @Override
@@ -51,6 +52,16 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
             appVersionName = packageInfo.versionName;
         } catch (NameNotFoundException e) {
             appVersionName = "?";
+        }
+    }
+
+    private void handleReceivingSentText(Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_SEND)
+                && intent.getType().equals("text/plain")) {
+            String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+            Log.d(TAG, "handleReceivingSentText(" + sharedText + ")");
+            EditText editText = (EditText)findViewById(R.id.current_text);
+            editText.setText(sharedText);
         }
     }
 
