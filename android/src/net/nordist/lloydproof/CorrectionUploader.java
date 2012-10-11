@@ -46,6 +46,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")  // intentionally handling multiple
     protected Void doInBackground(Void... params) {
         try {
             JSONObject correctionsJSON = createCorrectionsJSON();
