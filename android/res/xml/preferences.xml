@@ -4,5 +4,6 @@
         android:key="pref_server_url"
         android:title="@string/pref_server_url"
         android:selectAllOnFocus="true"
+        android:inputType="textUri"
         android:defaultValue="http://10.0.2.2:3000/" />
 </PreferenceScreen>
