@@ -37,6 +37,11 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         store = new CorrectionStorage(this);
         initializePackageInfo();
         setContentView(R.layout.main);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         updateUploadStatus();
     }
 
