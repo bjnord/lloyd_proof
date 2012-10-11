@@ -26,7 +26,7 @@ public class CorrectionStorageTest extends AndroidTestCase
 
     public void testSaveAndDelete() {
         // test save():
-        int id = store.save("XYZZY");
+        int id = store.save("XYZZY");  // NOPMD - id makes sense
         Assert.assertTrue(id > 0);
         Assert.assertEquals(1, store.count());
         // test deleteById():

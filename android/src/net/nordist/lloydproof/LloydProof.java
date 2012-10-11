@@ -55,16 +55,17 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
         return true;
     }
 
+    // TODO Android doc says onCreateDialog is deprecated; use DialogFragment
     @Override
-    public Dialog onCreateDialog(int id) {
-        if (id != DIALOG_ABOUT) {
+    public Dialog onCreateDialog(int dialogId) {
+        if (dialogId != DIALOG_ABOUT) {
             return null;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.about_app_name);
         builder.setView(createDialogView());
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
         });
@@ -85,7 +86,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
             Log.d(TAG, "not saving empty correction");
             return;
         }
-        int id = store.save(currentText);
+        int id = store.save(currentText);  // NOPMD - id makes sense
         if (id > 0) {
             editText.setText("", TextView.BufferType.EDITABLE);
             showStatus(getString(R.string.correction_saved));

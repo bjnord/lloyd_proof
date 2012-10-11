@@ -30,19 +30,19 @@ public class CorrectionStorage extends SQLiteOpenHelper
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase database) {
         Log.w(TAG, "Creating database v" + DATABASE_VERSION);
-        db.execSQL("CREATE TABLE " + TABLE_NAME +
+        database.execSQL("CREATE TABLE " + TABLE_NAME +
             " (id integer PRIMARY KEY AUTOINCREMENT," +
             " current_text text NOT NULL DEFAULT '');");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         Log.w(TAG, "Upgrading database from v" + oldVersion + " to v"
             + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + ";");
-        onCreate(db);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + ";");
+        onCreate(database);
     }
 
     public int save(String currentText) {
@@ -76,7 +76,7 @@ public class CorrectionStorage extends SQLiteOpenHelper
         Log.d(TAG, "deleted all rows");
     }
 
-    public int deleteById(int id) {
+    public int deleteById(int id) {  // NOPMD - id makes sense
         openWriteDB();
         String idString = Integer.toString(id);
         int deletedCount = writeDB.delete(TABLE_NAME, "id=?", new String[] {idString});
