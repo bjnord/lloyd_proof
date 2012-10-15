@@ -15,24 +15,27 @@
       android:lines="5"
       android:scrollHorizontally="false"
       android:hint="@string/paste_here" />
-    <Button
-      android:id="@+id/save_button"
-      android:layout_width="100dip"
-      android:layout_height="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="260dip"
+      android:layout_height="fill_parent"
       android:layout_below="@id/current_text"
-      android:layout_centerInParent="true"
-      android:text="@string/save"
-      android:textSize="18sp" android:textStyle="bold"
-      android:onClick="saveCorrection" />
-    <Button
-      android:id="@+id/upload_button"
-      android:layout_width="160dip"
-      android:layout_height="wrap_content"
       android:layout_marginTop="2dip"
-      android:layout_below="@id/save_button"
-      android:layout_centerInParent="true"
-      android:text="@string/upload"
-      android:textSize="18sp" android:textStyle="bold"
-      android:onClick="uploadCorrections" />
+      android:layout_centerInParent="true">
+        <Button
+          android:id="@+id/save_button"
+          android:layout_width="100dip"
+          android:layout_height="wrap_content"
+          android:text="@string/save"
+          android:textSize="18sp" android:textStyle="bold"
+          android:onClick="saveCorrection" />
+        <Button
+          android:id="@+id/upload_button"
+          android:layout_width="160dip"
+          android:layout_height="wrap_content"
+          android:layout_toRightOf="@id/save_button"
+          android:text="@string/upload"
+          android:textSize="18sp" android:textStyle="bold"
+          android:onClick="uploadCorrections" />
+    </RelativeLayout>
 </RelativeLayout>
 
