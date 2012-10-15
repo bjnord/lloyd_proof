@@ -133,16 +133,6 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
             uploadButton.setText(getString(R.string.upload));
             uploadButton.setEnabled(false);
         }
-        updateUploadStatusText(count);
-    }
-
-    private void updateUploadStatusText(int count) {
-        TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
-        if (count > 0) {
-            uploadStatus.setText(getString(R.string.n_corrections_to_upload, pluralCorrectionCount(count)));
-        } else {
-            uploadStatus.setText(getString(R.string.all_corrections_uploaded));
-        }
     }
 
     private String pluralCorrectionCount(int count) {

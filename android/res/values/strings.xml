@@ -16,8 +16,6 @@
     <string name="save">Save</string>
     <string name="upload">Upload</string>
     <string name="uploaded_n_corrections">Uploaded %s.</string>
-    <string name="n_corrections_to_upload">%s to upload</string>
-    <string name="all_corrections_uploaded">All corrections uploaded</string>
     <string name="correction_saved">Correction saved.</string>
     <string name="correction_save_error">Error saving correction.</string>
     <string name="pref_server_url">Server URL</string>
