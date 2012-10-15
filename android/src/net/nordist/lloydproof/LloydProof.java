@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -126,8 +127,21 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     private void updateUploadStatus() {
-        TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
+        Button uploadButton = (Button)findViewById(R.id.upload_button);
         int count = store.count();
+        if (count > 0) {
+            String buttonText = String.format("%s (%d)", getString(R.string.upload), count);
+            uploadButton.setText(buttonText);
+            uploadButton.setEnabled(true);
+        } else {
+            uploadButton.setText(getString(R.string.upload));
+            uploadButton.setEnabled(false);
+        }
+        updateUploadStatusText(count);
+    }
+
+    private void updateUploadStatusText(int count) {
+        TextView uploadStatus = (TextView)findViewById(R.id.upload_status);
         if (count > 0) {
             uploadStatus.setText(getString(R.string.n_corrections_to_upload, pluralCorrectionCount(count)));
         } else {
@@ -156,7 +170,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void uploadStop() {
-        findViewById(R.id.upload_button).setEnabled(true);
+        updateUploadStatus();
     }
 
     public void settings(MenuItem item) {
