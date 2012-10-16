@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="LloydProofCustom" default="help">
 
-    <target name="quality" depends="pmd,findbugs"/>
+    <target name="quality" depends="pmd,findbugs,jdepend"/>
 
     <!--  ==========  PMD  ==========  -->
 
@@ -75,6 +75,59 @@
             <class location="${bin-dir}" />
             <auxClasspath path="${android-jar}" />
         </findbugs>
+    </target>
+
+    <!--  ==========  JDepend  ==========  -->
+
+    <path id="jdepend.classpath">
+        <fileset dir="${jdepend.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="jdepend">
+        <jdepend classpathref="jdepend.classpath" format="xml"
+                outputfile="${quality.dir}/jdepend.xml">
+            <exclude name="android.*"/>
+            <exclude name="java.*"/>
+            <exclude name="javax.*"/>
+            <exclude name="org.apache.*"/>
+            <exclude name="org.json"/>
+            <sourcespath>
+                <pathelement location="${source.absolute.dir}" />
+            </sourcespath>
+            <classespath>
+                <pathelement location="${out.classes.absolute.dir}" />
+            </classespath>
+        </jdepend>
+
+        <xslt basedir="${quality.dir}" destdir="${quality.dir}"
+              style="${ant.home}/etc/jdepend.xsl">
+            <param name="project" expression="${ant.project.name}"/>
+            <param name="today" expression="${DSTAMP}"/>
+            <param name="company" expression="${company}"/>
+            <mapper type="glob" from="jdepend.xml" to="jdepend_report.html"/>
+        </xslt>
+<!--
+        <xslt basedir="${quality.dir}"
+              destdir="${quality.dir}"
+              includes="jdepend.xml"
+              extension=".dot"
+              style="${jdepend.dot.loc}"/>
+-->
+         <!-- need to define a path to Graphiz/dot path -->
+<!--
+         <apply executable="${graphviz.home}"
+                dest="${quality.dir}"
+                parallel="false">
+             <arg value="-Tpng"/>
+             <arg value="-o"/>
+             <targetfile/>
+             <srcfile/>
+             <fileset dir="${quality.dir}" includes="*.dot"/>
+             <mapper type="glob" from="*.dot" to="*.png"/>
+         </apply>
+-->
     </target>
 
 </project>
