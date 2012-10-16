@@ -16,7 +16,7 @@
                 classpathref="pmd.classpath"/>
         <pmd shortFilenames="true"
                 rulesetfiles="pmd-rulesets/my-java-optimizations.xml,pmd-rulesets/my-java-junit.xml,pmd-rulesets/my-java-naming.xml">
-            <formatter type="html" toFile="quality/pmd_my_report.html"/>
+            <formatter type="html" toFile="${quality.dir}/pmd_my_report.html"/>
             <fileset dir="src/">
                 <include name="net/nordist/lloydproof/*.java"/>
             </fileset>
@@ -43,7 +43,7 @@
             <ruleset>java-typeresolution</ruleset>
             <ruleset>java-unnecessary</ruleset>
             <ruleset>java-unusedcode</ruleset>
-            <formatter type="html" toFile="quality/pmd_report.html"/>
+            <formatter type="html" toFile="${quality.dir}/pmd_report.html"/>
             <fileset dir="src/">
                 <include name="net/nordist/lloydproof/*.java"/>
             </fileset>
@@ -58,7 +58,7 @@
     <property name="src-dir" value="src" />
     <property name="bin-dir" value="bin" />
     <property name="android-jar" value="${sdk.dir}/platforms/android-15/android.jar" />
-    <property name="findbugs-report" value="quality/findbugs_report.html" />
+    <property name="findbugs-report" value="${quality.dir}/findbugs_report.html" />
     <property name="package-to-analyse" value="net.nordist.lloydproof.*" />
 
     <path id="findbugs.dir.jars">
