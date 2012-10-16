@@ -128,16 +128,13 @@
             <param name="company" expression="${company}"/>
             <mapper type="glob" from="jdepend.xml" to="jdepend_report.html"/>
         </xslt>
-<!--
         <xslt basedir="${quality.dir}"
               destdir="${quality.dir}"
               includes="jdepend.xml"
               extension=".dot"
-              style="${jdepend.dot.loc}"/>
--->
+              style="jdepend2dot.xsl"/>
          <!-- need to define a path to Graphiz/dot path -->
-<!--
-         <apply executable="${graphviz.home}"
+         <apply executable="${graphviz.dot.bin}"
                 dest="${quality.dir}"
                 parallel="false">
              <arg value="-Tpng"/>
@@ -147,7 +144,6 @@
              <fileset dir="${quality.dir}" includes="*.dot"/>
              <mapper type="glob" from="*.dot" to="*.png"/>
          </apply>
--->
     </target>
 
 </project>
