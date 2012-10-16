@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="LloydProofCustom" default="help">
 
-    <target name="quality" depends="pmd,findbugs,jdepend"/>
+    <target name="quality" depends="pmd,findbugs,jdepend,javancss"/>
 
     <!--  ==========  PMD  ==========  -->
 
@@ -141,6 +141,39 @@
              <fileset dir="${quality.dir}" includes="*.dot"/>
              <mapper type="glob" from="*.dot" to="*.png"/>
          </apply>
+    </target>
+
+    <!--  ==========  JavaNCSS  ==========  -->
+
+    <path id="javancss.classpath">
+        <fileset dir="${javancss.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="javancss" classname="javancss.JavancssAntTask"
+        classpathref="javancss.classpath"/>
+
+    <target name="javancss">
+        <javancss srcdir="${source.dir}" generateReport="true"
+            outputfile="${quality.dir}/javancss.xml"
+            format="xml"/>
+        <xslt basedir="${quality.dir}" destdir="${quality.dir}"
+              style="${javancss.xslt}/javancss2methodhtml.xsl">
+            <mapper type="glob" from="javancss.xml" to="javancss_report.html"/>
+        </xslt>
+        <xslt basedir="${quality.dir}" destdir="${quality.dir}"
+              style="${javancss.xslt}/svg/chart_ncss.xsl">
+            <mapper type="glob" from="javancss.xml" to="javancss_ncss.svg"/>
+        </xslt>
+        <xslt basedir="${quality.dir}" destdir="${quality.dir}"
+              style="${javancss.xslt}/svg/chart_function_package.xsl">
+            <mapper type="glob" from="javancss.xml" to="javancss_function_package.svg"/>
+        </xslt>
+        <xslt basedir="${quality.dir}" destdir="${quality.dir}"
+              style="${javancss.xslt}/svg/chart_ccn.xsl">
+            <mapper type="glob" from="javancss.xml" to="javancss_ccn.svg"/>
+        </xslt>
     </target>
 
 </project>
