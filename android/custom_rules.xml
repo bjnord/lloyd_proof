@@ -88,6 +88,7 @@
             <class location="${out.dir}" />
             <auxClasspath>
                 <pathelement location="${project.target.android.jar}" />
+                <pathelement location="${findbugs.rmi.jar}" />
                 <path refid="project.all.jars.path" />
             </auxClasspath>
         </findbugs>
