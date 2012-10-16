@@ -130,17 +130,16 @@
               includes="jdepend.xml"
               extension=".dot"
               style="jdepend2dot.xsl"/>
-         <!-- need to define a path to Graphiz/dot path -->
-         <apply executable="${graphviz.dot.bin}"
-                dest="${quality.dir}"
-                parallel="false">
-             <arg value="-Tpng"/>
-             <arg value="-o"/>
-             <targetfile/>
-             <srcfile/>
-             <fileset dir="${quality.dir}" includes="*.dot"/>
-             <mapper type="glob" from="*.dot" to="*.png"/>
-         </apply>
+        <apply executable="${graphviz.dot.bin}"
+               dest="${quality.dir}"
+               parallel="false">
+            <arg value="-Tpng"/>
+            <arg value="-o"/>
+            <targetfile/>
+            <srcfile/>
+            <fileset dir="${quality.dir}" includes="*.dot"/>
+            <mapper type="glob" from="*.dot" to="*.png"/>
+        </apply>
     </target>
 
     <!--  ==========  JavaNCSS  ==========  -->
