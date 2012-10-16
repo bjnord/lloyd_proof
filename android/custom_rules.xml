@@ -83,7 +83,10 @@
              jarLibraryPathOut="project.all.jars.path"
              targetApi="${project.target.apilevel}"
              verbose="${verbose}" />
-        <findbugs home="${findbugs.home}" output="html" outputFile="${findbugs-report}" onlyAnalyze="${package-to-analyse}">
+        <findbugs home="${findbugs.home}" output="html"
+                outputFile="${findbugs-report}"
+                onlyAnalyze="${package-to-analyse}"
+                excludeFilter="findbugs-exclude.xml">
             <sourcePath path="${source.dir}" />
             <class location="${out.dir}" />
             <auxClasspath>
