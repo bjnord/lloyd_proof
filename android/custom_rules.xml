@@ -108,11 +108,8 @@
     <target name="jdepend">
         <jdepend classpathref="jdepend.classpath" format="xml"
                 outputfile="${quality.dir}/jdepend.xml">
-            <exclude name="android.*"/>
             <exclude name="java.*"/>
             <exclude name="javax.*"/>
-            <exclude name="org.apache.*"/>
-            <exclude name="org.json"/>
             <sourcespath>
                 <pathelement location="${source.absolute.dir}" />
             </sourcespath>
