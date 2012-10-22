@@ -25,11 +25,14 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private String failureMessage;
     private HttpJSONClient uploadClient;
 
-    public CorrectionUploader(Context context, CorrectionUploadObserver observer) {
+    public CorrectionUploader(Context context) {
         super();
-        this.observer = observer;
         store = new CorrectionStorage(context);
         settings = new Settings(context);
+    }
+
+    public void registerObserver(CorrectionUploadObserver observer) {
+        this.observer = observer;
     }
 
     @Override

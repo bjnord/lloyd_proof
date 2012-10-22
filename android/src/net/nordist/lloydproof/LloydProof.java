@@ -114,7 +114,8 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void uploadCorrections(View view) {
-        uploader = new CorrectionUploader(this, this);
+        uploader = new CorrectionUploader(this);
+        uploader.registerObserver(this);
         uploader.execute();
     }
 
