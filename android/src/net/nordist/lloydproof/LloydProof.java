@@ -27,7 +27,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     private static final String TAG = "LloydProof";
     private static final int DIALOG_ABOUT = 0;
 
-    private Settings settings;
+    private Settings settings;  // NOPMD - singleton used by other classes
     private CorrectionStorage store;
     private CorrectionUploader uploader;
     private String appVersionName;
