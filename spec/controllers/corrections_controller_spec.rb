@@ -21,6 +21,55 @@ describe CorrectionsController do
     end
   end
 
+  describe 'upload action' do
+    before(:each) do
+      @corrections = [
+        {'sync_id' => '101', 'current_text' => 'irregardless'},
+        {'sync_id' => '102', 'current_text' => 'equally as'},
+        {'sync_id' => '103', 'current_text' => 'pour over'}
+      ]
+    end
+
+    it 'returns HTTP success' do
+      post :upload, :corrections => @corrections, :format => :json
+      response.should be_success
+    end
+
+    it 'accepts valid corrections' do
+      post :upload, :corrections => @corrections, :format => :json
+      JSON.parse(response.body)['upload_status'].each do |status|
+        status['status'].should == 'ok'
+      end
+    end
+
+    it 'selectively rejects invalid corrections' do
+      @corrections[1]['current_text'] = ''
+      bad_sync_id = @corrections[1]['sync_id']
+      post :upload, :corrections => @corrections, :format => :json
+      JSON.parse(response.body)['upload_status'].each do |status|
+        if status['sync_id'] == bad_sync_id
+          status['status'].should == 'error'
+        else
+          status['status'].should == 'ok'
+        end
+      end
+    end
+
+    it 'selectively rejects mass assignment attempts' do
+      @corrections[2]['updated_at'] = 'dawn'
+      bad_sync_id = @corrections[2]['sync_id']
+      post :upload, :corrections => @corrections, :format => :json
+      JSON.parse(response.body)['upload_status'].each do |status|
+        if status['sync_id'] == bad_sync_id
+          status['status'].should == 'error'
+        else
+          status['status'].should == 'ok'
+        end
+      end
+    end
+  end
+
+  # DEPRECATED
   describe 'sync action' do
     before(:each) do
       @corrections = [
