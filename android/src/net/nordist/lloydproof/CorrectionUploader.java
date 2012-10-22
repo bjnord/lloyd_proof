@@ -10,15 +10,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +23,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private Settings settings;
     private int uploadedCount;
     private String failureMessage;
+    private HttpJSONClient uploadClient;
 
     public CorrectionUploader(Context context, CorrectionUploadObserver observer) {
         super();
@@ -81,39 +73,31 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     protected JSONArray uploadCorrectionsJSON(JSONObject json)
             throws UnsupportedEncodingException, IOException, JSONException {
-        HttpResponse httpResponse = sendCorrectionsHttpRequest(json.toString());
-        cancelOnHttpResponseFailure(httpResponse);
+        sendCorrectionsRequest(json);
+        cancelOnCorrectionsResponseFailure();
         if (isCancelled()) {
             return new JSONArray();
         }
-        return parseCorrectionsHttpResponse(httpResponse);
+        return parseCorrectionsResponse();
     }
 
-    protected HttpResponse sendCorrectionsHttpRequest(String jsonString)
-            throws UnsupportedEncodingException, IOException {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpRequest = new HttpPost(settings.getString(Settings.SERVER_URL)
-            + "corrections/upload.json");
-        StringEntity entity = new StringEntity(jsonString, HTTP.UTF_8);
-        entity.setContentType("application/json");
-        httpRequest.setEntity(entity);
-        return httpClient.execute(httpRequest);
+    protected void sendCorrectionsRequest(JSONObject json) throws IOException, JSONException {
+        String url = settings.getString(Settings.SERVER_URL) + "corrections/upload.json";
+        uploadClient = new HttpJSONClient(url);
+        uploadClient.sendRequest(json);
     }
 
-    protected void cancelOnHttpResponseFailure(HttpResponse httpResponse) {
-        StatusLine statusLine = httpResponse.getStatusLine();
-        if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
-            failureMessage = "HTTP " + statusLine.getStatusCode() + " " +
-                statusLine.getReasonPhrase();
+    protected void cancelOnCorrectionsResponseFailure() {
+        if (uploadClient.requestFailed()) {
+            failureMessage = uploadClient.failureMessage();
             Log.e(TAG, failureMessage);
             cancel(true);
         }
     }
 
-    protected JSONArray parseCorrectionsHttpResponse(HttpResponse httpResponse)
+    protected JSONArray parseCorrectionsResponse()
             throws UnsupportedEncodingException, IOException, JSONException {
-        byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
-        JSONObject statusJSON = new JSONObject(new String(body, "UTF-8"));
+        JSONObject statusJSON = uploadClient.parseResponse();
         Log.d(TAG, "status JSON: " + statusJSON.toString());
         return (JSONArray)statusJSON.get("upload_status");
     }
