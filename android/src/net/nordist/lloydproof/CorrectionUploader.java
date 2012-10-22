@@ -20,7 +20,6 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     private CorrectionStorage store;
     private CorrectionUploadObserver observer;
-    private Settings settings;
     private int uploadedCount;
     private String failureMessage;
     private HttpJSONClient uploadClient;
@@ -28,7 +27,6 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     public CorrectionUploader(Context context) {
         super();
         store = new CorrectionStorage(context);
-        settings = new Settings(context);
     }
 
     public void registerObserver(CorrectionUploadObserver observer) {
@@ -85,7 +83,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     }
 
     protected void sendCorrectionsRequest(JSONObject json) throws IOException, JSONException {
-        String url = settings.getString(Settings.SERVER_URL) + "corrections/upload.json";
+        String url = Settings.getString(Settings.SERVER_URL) + "corrections/upload.json";
         uploadClient = new HttpJSONClient(url);
         uploadClient.sendRequest(json);
     }

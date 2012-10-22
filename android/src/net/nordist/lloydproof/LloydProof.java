@@ -27,6 +27,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     private static final String TAG = "LloydProof";
     private static final int DIALOG_ABOUT = 0;
 
+    private Settings settings;
     private CorrectionStorage store;
     private CorrectionUploader uploader;
     private String appVersionName;
@@ -35,6 +36,7 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        settings = new Settings(getApplicationContext());
         store = new CorrectionStorage(this);
         initializePackageInfo();
         setContentView(R.layout.main);
