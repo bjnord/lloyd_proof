@@ -116,7 +116,9 @@ public class LloydProof extends Activity implements CorrectionUploadObserver
     }
 
     public void uploadCorrections(View view) {
-        uploader = new CorrectionUploader(this);
+        String url = Settings.getString(Settings.SERVER_URL) + "corrections/upload.json";
+        JSONRequester uploadRequester = new HttpJSONClient(url);
+        uploader = new CorrectionUploader(this, uploadRequester);
         uploader.registerObserver(this);
         uploader.execute();
     }

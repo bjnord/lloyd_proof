@@ -22,11 +22,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     private CorrectionUploadObserver observer;
     private int uploadedCount;
     private String failureMessage;
-    private HttpJSONClient uploadClient;
+    private JSONRequester uploadRequester;
 
-    public CorrectionUploader(Context context) {
+    public CorrectionUploader(Context context, JSONRequester uploadRequester) {
         super();
         store = new CorrectionStorage(context);
+        this.uploadRequester = uploadRequester;
     }
 
     public void registerObserver(CorrectionUploadObserver observer) {
@@ -83,14 +84,12 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     }
 
     protected void sendCorrectionsRequest(JSONObject json) throws IOException, JSONException {
-        String url = Settings.getString(Settings.SERVER_URL) + "corrections/upload.json";
-        uploadClient = new HttpJSONClient(url);
-        uploadClient.sendRequest(json);
+        uploadRequester.sendRequest(json);
     }
 
     protected void cancelOnCorrectionsResponseFailure() {
-        if (uploadClient.requestFailed()) {
-            failureMessage = uploadClient.failureMessage();
+        if (uploadRequester.requestFailed()) {
+            failureMessage = uploadRequester.failureMessage();
             Log.e(TAG, failureMessage);
             cancel(true);
         }
@@ -98,7 +97,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     protected JSONArray parseCorrectionsResponse()
             throws UnsupportedEncodingException, IOException, JSONException {
-        JSONObject statusJSON = uploadClient.parseResponse();
+        JSONObject statusJSON = uploadRequester.parseResponse();
         Log.d(TAG, "status JSON: " + statusJSON.toString());
         return (JSONArray)statusJSON.get("upload_status");
     }
