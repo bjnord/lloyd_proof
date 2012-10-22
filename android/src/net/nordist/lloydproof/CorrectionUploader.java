@@ -93,7 +93,7 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
             throws UnsupportedEncodingException, IOException {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpRequest = new HttpPost(settings.getString(Settings.SERVER_URL)
-            + "corrections/sync.json");
+            + "corrections/upload.json");
         StringEntity entity = new StringEntity(jsonString, HTTP.UTF_8);
         entity.setContentType("application/json");
         httpRequest.setEntity(entity);
@@ -113,9 +113,9 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
     protected JSONArray parseCorrectionsHttpResponse(HttpResponse httpResponse)
             throws UnsupportedEncodingException, IOException, JSONException {
         byte[] body = EntityUtils.toByteArray(httpResponse.getEntity());
-        JSONArray statusJSON = new JSONArray(new String(body, "UTF-8"));
+        JSONObject statusJSON = new JSONObject(new String(body, "UTF-8"));
         Log.d(TAG, "status JSON: " + statusJSON.toString());
-        return statusJSON;
+        return (JSONArray)statusJSON.get("upload_status");
     }
 
     protected void deleteCorrectionsWithSuccessfulStatus(JSONArray statusJSON)
