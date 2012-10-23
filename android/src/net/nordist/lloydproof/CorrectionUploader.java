@@ -36,7 +36,9 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     @Override
     protected void onPreExecute() {
-        observer.uploadStart();
+        if (observer != null) {
+            observer.uploadStart();
+        }
     }
 
     @Override
@@ -56,14 +58,18 @@ public class CorrectionUploader extends AsyncTask<Void, Void, Void>
 
     @Override
     protected void onPostExecute(Void result) {
-        observer.uploadSuccess(uploadedCount);
-        observer.uploadStop();
+        if (observer != null) {
+            observer.uploadSuccess(uploadedCount);
+            observer.uploadStop();
+        }
     }
 
     @Override
     protected void onCancelled(Void result) {
-        observer.uploadFailure(failureMessage);
-        observer.uploadStop();
+        if (observer != null) {
+            observer.uploadFailure(failureMessage);
+            observer.uploadStop();
+        }
     }
 
     protected JSONObject createCorrectionsJSON() throws JSONException {
