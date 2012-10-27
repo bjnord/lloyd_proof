@@ -5,20 +5,15 @@ require 'spec_helper'
 
 describe CorrectionsController do
 
-  describe 'index action' do
-    it 'returns HTTP success' do
-      get :index
-      response.should be_success
+  describe '#index' do
+    let(:corrections) { mock(Array) }
+    subject { get :index }
+
+    before(:each) do
+      Correction.should_receive(:all).and_return(corrections)
     end
 
-    it 'returns an array of corrections' do
-      FactoryGirl.create(:correction)
-      popeye = 'I yam what I yam.'
-      FactoryGirl.create(:correction, :current_text => popeye)
-      get :index
-      assigns[:corrections].should have_at_least(2).items
-      assigns[:corrections].collect{|c| c.current_text}.should include(popeye)
-    end
+    it { should render_template(:index) }
   end
 
   describe 'upload action' do
