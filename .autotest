@@ -1,0 +1,20 @@
+require "autotest/restart"
+require "autotest/fsevent"
+
+# RSpec provides most of the exceptions/mappings we need:
+#   under the gems directory (e.g. $HOME/.rvm/gems/ruby-$version/gems)
+#   see rspec-rails-$version/lib/autotest/rails_rspec2.rb
+#
+# To test all the exceptions/mappings:
+# 1. make sure at least one spec is failing (important)
+# 2. run "autotest -v" which will print the files(s) that woke it up
+
+Autotest.add_hook :initialize do |autotest|
+  %w{quality/ .git .DS_Store}.each do |exception|
+    autotest.add_exception(exception)
+  end
+  autotest.add_mapping(%r{^spec/factories/.*\.rb$}) {
+    autotest.files_matching %r{^spec/(models|controllers|routing|views|helpers|uploaders|lib)/.*_spec\.rb$}
+  }
+  nil
+end

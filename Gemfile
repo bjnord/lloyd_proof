@@ -42,4 +42,6 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
+  gem 'autotest-rails', :require => false
+  gem 'autotest-fsevent', :require => false
 end
