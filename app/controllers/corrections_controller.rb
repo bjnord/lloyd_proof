@@ -59,8 +59,7 @@ private
     sync_id = correction_hash.delete('sync_id')
     begin
       corr = Correction.new(correction_hash)
-      return {:sync_id => sync_id, :status => :ok} if corr.save
-      return {:sync_id => sync_id, :status => :error, :errors => corr.errors.full_messages}
+      return corr.save_and_return_status(sync_id)
     rescue ActiveModel::MassAssignmentSecurity::Error => e
       return {:sync_id => sync_id, :status => :error, :errors => [e.message]}
     end

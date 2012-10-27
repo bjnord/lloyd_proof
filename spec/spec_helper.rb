@@ -16,6 +16,7 @@ Spork.prefork do
     SimpleCov.start 'rails' do
       add_group "Models", "app/models"
       add_group "Controllers", "app/controllers"
+      add_group "Libraries", "lib"
     end
     SimpleCov.coverage_dir('quality/coverage')
   end
@@ -67,6 +68,7 @@ Spork.each_run do
     SimpleCov.start 'rails' do
       add_group "Models", "app/models"
       add_group "Controllers", "app/controllers"
+      add_group "Libraries", "lib"
     end
     SimpleCov.coverage_dir('quality/coverage')
   end
