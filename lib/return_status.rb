@@ -15,9 +15,8 @@ module ReturnStatus
     end
   end
 
-  #--
   # <http://stackoverflow.com/questions/3357712/static-methods-in-ruby-modules>
-  def self.included(o)
+  def self.included(o)  #:nodoc:
     o.extend(ClassMethods)
   end
 
