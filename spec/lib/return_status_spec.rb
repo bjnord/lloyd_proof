@@ -9,6 +9,15 @@ require 'spec_helper'
 
 describe ReturnStatus do
 
+  shared_examples_for "a successful status" do
+    it { should include(:sync_id => sync_id, :status => :ok) }
+  end
+
+  shared_examples_for "a status with errors" do
+    it { should include(:sync_id => sync_id, :status => :error) }
+    its([:errors]) { should_not be_empty }
+  end
+
   describe '#create_and_return_status' do
     let(:correction_attr) { Hash[:sync_id => sync_id] }
     let(:sync_id) { 444 }
@@ -16,21 +25,21 @@ describe ReturnStatus do
 
     context 'with a valid object' do
       before(:each) { Correction.should_receive(:create).and_return(mock_model(Correction)) }
-      its([:sync_id]) { should == sync_id }
-      its([:status]) { should == :ok }
+
+      it_behaves_like "a successful status"
     end
 
     context 'with an invalid object' do
-      before(:each) { Correction.should_receive(:create).and_return(mock_model(Correction, :persisted? => false)) }
-      its([:sync_id]) { should == sync_id }
-      its([:status]) { should == :error }
+      let(:errors) { stub("errors", :full_messages => ['fnord']) }
+      before(:each) { Correction.should_receive(:create).and_return(mock_model(Correction, :persisted? => false, :errors => errors)) }
+
+      it_behaves_like "a status with errors"
     end
 
     context 'with a mass-assignment attempt' do
       before(:each) { Correction.should_receive(:create).and_raise(ActiveModel::MassAssignmentSecurity::Error) }
-      its([:sync_id]) { should == sync_id }
-      its([:status]) { should == :error }
-      its([:errors]) { should_not be_nil }
+
+      it_behaves_like "a status with errors"
     end
   end
 
@@ -41,14 +50,18 @@ describe ReturnStatus do
 
     context 'with a valid object' do
       before(:each) { correction.should_receive(:save).and_return(true) }
-      its([:sync_id]) { should == sync_id }
-      its([:status]) { should == :ok }
+
+      it_behaves_like "a successful status"
     end
 
     context 'with an invalid object' do
-      before(:each) { correction.should_receive(:save).and_return(false) }
-      its([:sync_id]) { should == sync_id }
-      its([:status]) { should == :error }
+      let(:errors) { stub("errors", :full_messages => ['fnord']) }
+      before(:each) do
+        correction.should_receive(:save).and_return(false)
+        correction.should_receive(:errors).and_return(errors)
+      end
+
+      it_behaves_like "a status with errors"
     end
   end
 
