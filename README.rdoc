@@ -18,7 +18,7 @@ Accessing +/corrections+ on the server will show the corrections uploaded so far
 The Android client is currently targeted at API level 14 (Android 4.0 "Ice Cream Sandwich") and above. If you have the Android SDK and tools installed, you can build it in the usual way:
 
   $ cd android
-  [ set ANDROID_HOME environment variable, or see local-example.properties]
+  [set ANDROID_HOME environment variable, or see local-example.properties]
   $ ant [ debug | release ]
 
 Then install the +.apk+ file from +android/bin+ onto your Android device. (By default the Android client uses the server at 10.0.2.2:3000 which works for a localhost Rails server and the Android emulator. You can change the server URL in the client settings.)
