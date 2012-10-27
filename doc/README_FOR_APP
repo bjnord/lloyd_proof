@@ -1,1 +1,1 @@
-At this stage, all controller methods that use JSON are fully documented; for example, see {CorrectionsController#sync}[file:../CorrectionsController.html#method-i-sync]
+At this stage, all controller methods that use JSON are fully documented; for example, see {CorrectionsController#upload}[file:../CorrectionsController.html#method-i-upload]
