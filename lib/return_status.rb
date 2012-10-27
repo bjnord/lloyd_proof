@@ -1,7 +1,9 @@
-# Copyright © 2012 by Brent J. Nordquist. Some Rights Reserved.
-# This work is licensed under http://creativecommons.org/licenses/by-sa/3.0/
+# Author::     Brent J. Nordquist <mailto:brent@nordist.net>
+# Copyright::  Copyright © 2012 by Brent J. Nordquist. Some Rights Reserved.
+# License::    {CC Attribution-ShareAlike 3.0 Unported}[http://creativecommons.org/licenses/by-sa/3.0/]
 
 module ReturnStatus
+  #--
   # <http://stackoverflow.com/questions/3357712/static-methods-in-ruby-modules>
   def self.included(o)
     o.extend(ClassMethods)
