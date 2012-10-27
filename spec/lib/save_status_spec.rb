@@ -3,23 +3,50 @@
 
 require 'spec_helper'
 
+# FIXME shouldn't use specific class Correction; should spec
+# generically as in <http://www.ruby-forum.com/topic/214968>
+
 describe SaveStatus do
-  # FIXME shouldn't use specific class Correction; should spec
-  # generically as in <http://www.ruby-forum.com/topic/214968>
-  let(:correction) { Correction.new }
+
+  describe '#create_and_return_status' do
+    let(:correction_attr) { Hash[:sync_id => sync_id] }
+    let(:sync_id) { 444 }
+    subject { Correction.create_and_return_status(correction_attr) }
+
+    context 'with a valid object' do
+      before(:each) { Correction.should_receive(:create).and_return(mock_model(Correction)) }
+      its([:sync_id]) { should == sync_id }
+      its([:status]) { should == :ok }
+    end
+
+    context 'with an invalid object' do
+      before(:each) { Correction.should_receive(:create).and_return(mock_model(Correction, :persisted? => false)) }
+      its([:sync_id]) { should == sync_id }
+      its([:status]) { should == :error }
+    end
+
+    context 'with a mass-assignment attempt' do
+      before(:each) { Correction.should_receive(:create).and_raise(ActiveModel::MassAssignmentSecurity::Error) }
+      its([:sync_id]) { should == sync_id }
+      its([:status]) { should == :error }
+      its([:errors]) { should_not be_nil }
+    end
+  end
 
   describe '#save_and_return_status' do
-    subject { correction.save_and_return_status(333) }
+    let(:correction) { Correction.new }
+    let(:sync_id) { 333 }
+    subject { correction.save_and_return_status(sync_id) }
 
     context 'with a valid object' do
       before(:each) { correction.should_receive(:save).and_return(true) }
-      its([:sync_id]) { should == 333 }
+      its([:sync_id]) { should == sync_id }
       its([:status]) { should == :ok }
     end
 
     context 'with an invalid object' do
       before(:each) { correction.should_receive(:save).and_return(false) }
-      its([:sync_id]) { should == 333 }
+      its([:sync_id]) { should == sync_id }
       its([:status]) { should == :error }
     end
   end

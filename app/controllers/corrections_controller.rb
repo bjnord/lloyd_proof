@@ -23,7 +23,9 @@ class CorrectionsController < ApplicationController
   #   {"upload_status":[{"sync_id":17,"status":"ok"},{"sync_id":21,"status":"error","errors":["Current text cannot be blank"]}]}
   #
   def upload
-    @statuses = params[:corrections].collect {|c| upload_one(c) }
+    @statuses = params[:corrections].collect do |c|
+      Correction.create_and_return_status(c)
+    end
     respond_to do |format|
       format.json { render :json => { :upload_status => @statuses } }
     end
@@ -46,22 +48,12 @@ class CorrectionsController < ApplicationController
   #   [{"sync_id":17,"status":"ok"},{"sync_id":21,"status":"error","errors":["Current text cannot be blank"]}]
   #
   def sync
-    @statuses = params[:corrections].collect {|c| upload_one(c) }
+    @statuses = params[:corrections].collect do |c|
+      Correction.create_and_return_status(c)
+    end
     respond_to do |format|
       format.json { render :json => @statuses }
     end
   end
   deprecate :sync => 'use #upload instead'
-
-private
-
-  def upload_one(correction_hash)
-    sync_id = correction_hash.delete('sync_id')
-    begin
-      corr = Correction.new(correction_hash)
-      return corr.save_and_return_status(sync_id)
-    rescue ActiveModel::MassAssignmentSecurity::Error => e
-      return {:sync_id => sync_id, :status => :error, :errors => [e.message]}
-    end
-  end
 end
