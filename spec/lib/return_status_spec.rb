@@ -6,7 +6,7 @@ require 'spec_helper'
 # FIXME shouldn't use specific class Correction; should spec
 # generically as in <http://www.ruby-forum.com/topic/214968>
 
-describe SaveStatus do
+describe ReturnStatus do
 
   describe '#create_and_return_status' do
     let(:correction_attr) { Hash[:sync_id => sync_id] }
