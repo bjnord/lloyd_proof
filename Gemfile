@@ -33,7 +33,6 @@ gem 'capistrano'
 group :development, :test do
   gem 'rspec-rails'
   gem 'spork'
-  gem 'watchr'
   gem 'webrat'
   gem 'flog'
   gem 'flay'
