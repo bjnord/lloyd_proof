@@ -8,12 +8,14 @@ set :application, "lloyd_proof"
 set :repository, "http://github.com/bjnord/lloyd_proof.git"
 set :scm, :git
 
-server "git.nordist.net", :app, :web, :db, :primary => true
-set :deploy_to, "/export/app/lloydproof"
+server "aquist.nordist.net", :app, :web, :db, :primary => true
+set :user, "lloyd"
+set :deploy_to, "/home/#{user}/lloyd_proof"
 
 set :use_sudo, false
 set :ssh_options, { :forward_agent => true }
 default_run_options[:pty] = true
+default_run_options[:shell] = "bash -l"
 
 # <https://github.com/capistrano/capistrano/issues/79>
 set :normalize_asset_timestamps, false
