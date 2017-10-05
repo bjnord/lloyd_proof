@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.22.5'
 gem 'rake', '0.9.2.2'
 
 gem 'sqlite3'
@@ -10,7 +10,7 @@ gem 'sqlite3'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'therubyracer', '~> 0.10.2', :platforms => :ruby
+  gem 'therubyracer', '~> 0.12.3', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -43,6 +43,6 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
-  gem 'autotest-rails', :require => false
-  gem 'autotest-fsevent', :require => false
+  gem 'autotest-rails', '~> 4.2.1', :require => false
+  gem 'autotest-fsevent', '~> 0.2.12', :require => false
 end
