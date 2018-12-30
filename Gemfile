@@ -26,7 +26,13 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+group :development do
+  gem 'capistrano'
+  # these are needed by net-ssh to support ed25519 keys:
+  gem 'rbnacl-libsodium'
+  gem 'rbnacl', '~> 4.0.2'  # must be < 5.0
+  gem 'bcrypt_pbkdf'  # must be < 2.0
+end
 
 # To use debugger
 # gem 'debugger'
